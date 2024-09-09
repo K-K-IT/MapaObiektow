@@ -145,6 +145,7 @@ function createFilters(kind) {
 }
 
 function fillDetails(data) {
+  udogodnienia_counter = 0
   html = `
 <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie</h5>
@@ -272,7 +273,7 @@ function fillDetails(data) {
                     <th>Udogodnienie</th>
                     <th>Wartość</th>
                   </tr>
-                  ${udogodnienia_counter = 0}
+                
                   ${uniqueContent.map((item) => {
                     
                     const questionnaires = data['content']['questionnaires']

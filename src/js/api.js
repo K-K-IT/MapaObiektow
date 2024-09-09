@@ -43,6 +43,10 @@ async function sendCheckedValues(e) {
   if (!(c == "-")){
     apiUrl = apiUrl + `&category=${c}`
   }
+  v = document.getElementById("voivodeship-filter").value
+  if (!(v == "Polska")){
+    apiUrl = apiUrl + `&voivodeship=${v}`
+  }
   console.log(apiUrl);
 
   try {

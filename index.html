@@ -108,6 +108,30 @@
         >
           <option selected>-</option>
         </select>
+        <label>Wybierz województwo</label>
+        <select
+          id="voivodeship-filter"
+          class="form-select form-select-lg mb-3"
+          aria-label="Large select example"
+        >
+          <option selected>Polska</option>
+          <option>Dolnośląskie</option>
+          <option>Kujawsko-pomorskie</option>
+          <option>Lubelskie</option>
+          <option>Lubuskie</option>
+          <option>Łódzkie</option>
+          <option>Małopolskie</option>
+          <option>Mazowieckie</option>
+          <option>Opolskie</option>
+          <option>Podkarpackie</option>
+          <option>Podlaskie</option>
+          <option>Pomorskie</option>
+          <option>Śląskie</option>
+          <option>Świętokrzyskie</option>
+          <option>Warmińsko-mazurskie</option>
+          <option>Wielkopolskie</option>
+          <option>Zachodniopomorskie</option>
+        </select>
         <div id="form">
           <div class="offcanvas-body">
             <div class="accordion" id="accordionExample">
@@ -192,9 +216,15 @@
             ></button>
           </div>
           <div>
-            <img src="src/img/cameel.jfif" class="img-thumbnail" style="border-radius: 50%"  data-bs-toggle="tooltip" data-bs-title="CameelDev"/>
+            <img
+              src="src/img/cameel.jfif"
+              class="img-thumbnail"
+              style="border-radius: 50%"
+              data-bs-toggle="tooltip"
+              data-bs-title="CameelDev"
+            />
           </div>
-          <div class="modal-body" >
+          <div class="modal-body">
             Aplikacja wyświetla informacje o obiektach turystycznych w Polsce.
             Aplikacja nie zbiera żadnych danych użytkownika w tym aktywności,
             sesji itp. W całości działa w przeglądarce użytkownika i pobiera
@@ -210,8 +240,16 @@
               <li><a href="https://popper.js.org/">popper</a></li>
             </ul>
 
-          <br/><br/>
-          Źródłem danych jest <a href="https://www.gov.pl/web/sport">Ministerstwo turystyki</a>. Dane pobierane są z <a href="https://api.turystyka.gov.pl/swagger-ui/index.html">serwisu</a> i autor w żaden sposób nie odpowiada za ich poprawność, aktualność ani dostepność. Użytkownicy mapy korzystają z niej na własną odpowiedzialność.
+            <br /><br />
+            Źródłem danych jest
+            <a href="https://www.gov.pl/web/sport">Ministerstwo turystyki</a>.
+            Dane pobierane są z
+            <a href="https://api.turystyka.gov.pl/swagger-ui/index.html"
+              >serwisu</a
+            >
+            i autor w żaden sposób nie odpowiada za ich poprawność, aktualność
+            ani dostepność. Użytkownicy mapy korzystają z niej na własną
+            odpowiedzialność.
           </div>
           <div class="modal-footer">
             <button
@@ -275,8 +313,12 @@
         const kind = await getKinds();
         const categories = await getCategories();
         createFilters(kind);
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const tooltipTriggerList = document.querySelectorAll(
+          '[data-bs-toggle="tooltip"]'
+        );
+        const tooltipList = [...tooltipTriggerList].map(
+          (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+        );
       };
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
