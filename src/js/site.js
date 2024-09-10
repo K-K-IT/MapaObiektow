@@ -1,5 +1,14 @@
-var uniqueContent
-var udogodnienia_counter
+var doc
+var uniqueContent;
+var udogodnienia_counter;
+
+
+const trashActive = '<ion-icon name="trash" id="reject" style="color: red; align: right" size="large" onclick="unmarkReject()"/>'
+const trashDeactive = '<ion-icon id="reject" name="trash-outline" style="color: gray; align: right" size="large" onclick="markReject()"></ion-icon>'
+const starActive = '<ion-icon name="star" id="star" style="color: gold" size="large" onclick="unmarkStar()"></ion-icon>'
+const starDeactive = '<ion-icon id="star" name="star-outline" style="color: gold" size="large" onclick="markStar()"></ion-icon>'
+
+
 function createCheckboxes(data) {
   // Znajdź element z id "form"
   const formContainer = document.getElementById("udogodnienia");
@@ -57,8 +66,7 @@ function createQ() {
 function createDetails(data) {
   var dane = data["content"];
   var popup = document.querySelector(`div[data-uid="${dane["uid"]}"]`);
-  // Sprawdzenie, czy element ma atrybut 'alt'
-  // Sprawdzenie, czy znaleziono element
+
   if (popup) {
     var www = dane["www"];
     try {
@@ -87,26 +95,15 @@ function createDetails(data) {
     >
       Szczegóły
     </button>
+    
+
     `;
+
     detailsPanel.innerHTML = fillDetails(data);
   } else {
     console.log("Nie znaleziono elementu div z data-uid:", uid);
   }
 }
-
-// function createFilterKind() {
-//   console.log(kind)
-//   const el = document.getElementById("kind-filter");
-//   // Wyczyść istniejące opcje
-//   for (const key in kind) {
-//     if (kind.hasOwnProperty(key)) {
-//       const option = document.createElement("option");
-//       option.value = key;
-//       option.textContent = kind[key];
-//       el.appendChild(option);
-//     }
-//   }
-// }
 
 function createFilterKind(kind) {
   console.log(kind);
@@ -145,17 +142,35 @@ function createFilters(kind) {
 }
 
 function fillDetails(data) {
-  udogodnienia_counter = 0
+  let star = starDeactive
+  let reject = trashDeactive
+  var dane = data["content"];
+  doc = document.querySelector(`div[data-uid="${dane["uid"]}"]`)
+  var status = doc.getAttribute('status')
+  console.log(status)
+  if (status == "saved"){
+    star = starActive
+  }
+  if (status == "rejected"){
+    reject = trashActive
+  }
+
+
+  udogodnienia_counter = 0;
   html = `
 <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie</h5>
+        <h4 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie
+        </h4>
         <button
+       
         type="button"
         class="btn-close"
         data-bs-dismiss="offcanvas"
         aria-label="Close"
-      ></button>      </div>
+      ></button> <br>  </div>
       <div class="offcanvas-body">
+       <div>${star}&emsp;&emsp;${reject}</div>
+       <br>
       <table class="table table-bordered">
         <tbody>
                
@@ -195,19 +210,31 @@ function fillDetails(data) {
             </td>          </tr>
           <tr>
             <td>Adres</td>
-            <td>  ${data["content"]["postalCode"]} ${data["content"]["city"]}<br>  ${data["content"]["street"]}  ${data["content"]["streetNumber"]}<br>  ${data["content"]["voivodeship"]}</td>
+            <td>  ${data["content"]["postalCode"]} ${
+    data["content"]["city"]
+  }<br>  ${data["content"]["street"]}  ${
+    data["content"]["streetNumber"]
+  }<br>  ${data["content"]["voivodeship"]}</td>
           </tr>
           <tr>
             <td colspan="2">
               <center>
                 <a
-                  href="https://www.google.com/maps?q=${data["content"]["spatialLocation"]["coordinates"][0]},${data["content"]["spatialLocation"]["coordinates"][1]}"
+                  href="https://www.google.com/maps?q=${
+                    data["content"]["spatialLocation"]["coordinates"][0]
+                  },${data["content"]["spatialLocation"]["coordinates"][1]}"
                   target="_blank"
                   class="btn btn-primary btn-sm"
                   >Google Maps</a
                 >
                 <a
-                  href="https://pl.mapy.cz/turisticka?q=${data["content"]["spatialLocation"]["coordinates"][0]},${data["content"]["spatialLocation"]["coordinates"][1]}&source=coor&ids=1&x=${data["content"]["spatialLocation"]["coordinates"][0]}&y=${data["content"]["spatialLocation"]["coordinates"][1]}&z=19"
+                  href="https://pl.mapy.cz/turisticka?q=${
+                    data["content"]["spatialLocation"]["coordinates"][0]
+                  },${
+    data["content"]["spatialLocation"]["coordinates"][1]
+  }&source=coor&ids=1&x=${
+    data["content"]["spatialLocation"]["coordinates"][0]
+  }&y=${data["content"]["spatialLocation"]["coordinates"][1]}&z=19"
                   
 
                   target="_blank"
@@ -274,28 +301,79 @@ function fillDetails(data) {
                     <th>Wartość</th>
                   </tr>
                 
-                  ${uniqueContent.map((item) => {
-                    
-                    const questionnaires = data['content']['questionnaires']
-                    const matchingQuestionnaire = questionnaires.find((q) => q.key === item.key);
-                    if (matchingQuestionnaire) {
-                      udogodnienia_counter = udogodnienia_counter + 1
-                      return `
+                  ${uniqueContent
+                    .map((item) => {
+                      const questionnaires = data["content"]["questionnaires"];
+                      const matchingQuestionnaire = questionnaires.find(
+                        (q) => q.key === item.key
+                      );
+                      if (matchingQuestionnaire) {
+                        udogodnienia_counter = udogodnienia_counter + 1;
+                        return `
                         <tr>
                           <td>${matchingQuestionnaire.name}</td>
                           <td>${matchingQuestionnaire.value}</td>
                         </tr>
                       `;
-                      
-                    }
-                    return '';
-                  }).join('')}
+                      }
+                      return "";
+                    })
+                    .join("")}
                   </div>
                   `;
 
   return html;
 }
 
-function updateCounter(){
-  document.getElementById("udogodnienia_count").textContent = udogodnienia_counter
+function updateCounter() {
+  document.getElementById("udogodnienia_count").textContent =
+    udogodnienia_counter;
 }
+
+
+function unmarkReject(){
+  reject.setAttribute("style","color: gray")
+  reject.setAttribute("onclick","markReject()")
+  uid = doc.getAttribute("data-uid")
+  marker = document.querySelector(`[alt="${uid}"]`)
+  marker.src = "src/icons/marker-icon-2x-blue.png"
+
+}
+
+
+function markStar(){
+  star = document.querySelector("#star")
+  star.name = "star"
+  star.setAttribute("onclick","unmarkStar()")
+  reject = document.querySelector("#reject")
+  reject.setAttribute("style","color: gray")
+  reject.setAttribute("onclick","markReject()")
+  uid = doc.getAttribute("data-uid")
+  marker = document.querySelector(`[alt="${uid}"]`)
+  marker.src = "src/icons/marker-icon-2x-gold.png"
+
+}
+
+function unmarkStar(){
+  star = document.querySelector("#star")
+  star.name = "star-outline"
+  star.setAttribute("onclick","markStar()")
+  uid = doc.getAttribute("data-uid")
+  marker = document.querySelector(`[alt="${uid}"]`)
+  marker.src = "src/icons/marker-icon-2x-blue.png"
+
+}
+
+function markReject(){
+  star = document.querySelector("#star")
+  star.name = "star-outline"
+  star.setAttribute("onclick","markStar()")
+  reject = document.querySelector("#reject")
+  reject.setAttribute("style","color: red")
+  reject.setAttribute("onclick","unmarkReject()")
+  uid = doc.getAttribute("data-uid")
+  marker = document.querySelector(`[alt="${uid}"]`)
+  marker.src = "src/icons/marker-icon-2x-red.png"
+    // do dorobienia kasowanie z listy obiektów i dodanie do 2 listy
+}
+

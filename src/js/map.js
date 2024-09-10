@@ -1,26 +1,24 @@
 saved_tmp = {
-  "saved": [
-      {
-          "uid": "a868a43e-adb0-4a11-9c93-8923ffe09e83",
-          "coordinates": [
-              53.1319,
-              23.1589085021682
-          ]
-      },
-      {
-          "uid": "35cf0285-d452-44b2-bc44-3acce9cce905",
-          "coordinates": [
-              53.797744,
-              21.5690052607057
-          ]
-      }],
-  "rejected":[
-      
-  ]}
+  saved: [
+    {
+      uid: "a868a43e-adb0-4a11-9c93-8923ffe09e83",
+      coordinates: [53.1319, 23.1589085021682],
+    },
+    {
+      uid: "35cf0285-d452-44b2-bc44-3acce9cce905",
+      coordinates: [53.797744, 21.5690052607057],
+    },
+  ],
+  rejected: [
+    {
+      uid: "9825e175-3471-408d-85f9-00296cf909a9",
+      coordinates: [53.1258019, 18.0066979998189],
+    }
+  ]
+};
 
-
-let savedPoints = saved_tmp['saved']
-let rejectedPoints = saved_tmp['rejected']
+let savedPoints = saved_tmp["saved"];
+let rejectedPoints = saved_tmp["rejected"];
 let map;
 function createMap() {
   map = L.map("map").setView([54.4506593, 18.5607375125286], 7);
@@ -67,30 +65,35 @@ function createMap() {
 }
 
 function setPoint(point, uid) {
-  var isSaved =  savedPoints.some(item => item.uid === uid);
-  var isRejected =  rejectedPoints.some(item => item.uid === uid);
+  var isSaved = savedPoints.some((item) => item.uid === uid);
+  var isRejected = rejectedPoints.some((item) => item.uid === uid);
 
   const popupContent = document.createElement("div");
-  popupContent.innerHTML = `      `;
+
+  popupContent.innerHTML = ``;
   // Dodawanie własnego atrybutu
   popupContent.setAttribute("data-uid", uid);
   popupContent.setAttribute("style", "width: auto;");
-  var icon = blueIcon
-  if (isSaved){
-    icon = yellowIcon
+  popupContent.setAttribute("status", "None")
+
+  var icon = blueIcon;
+  if (isSaved) {
+    icon = yellowIcon;
+    popupContent.setAttribute("status", "saved")
   }
-  if (isRejected){
-    icon = redIconIcon
+  if (isRejected) {
+    icon = redIcon;
+    popupContent.setAttribute("status", "rejected")
   }
-  
+
+
   var marker = L.marker(point, {
     color: "red",
     fillColor: "#f03",
     fillOpacity: 0.5,
     radius: 500,
     alt: uid,
-    icon: icon
-
+    icon: icon,
   });
   marker.addTo(map).bindPopup(popupContent);
 
