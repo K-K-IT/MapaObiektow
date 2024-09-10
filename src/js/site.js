@@ -337,7 +337,10 @@ function unmarkReject(){
   uid = doc.getAttribute("data-uid")
   marker = document.querySelector(`[alt="${uid}"]`)
   marker.src = "src/icons/marker-icon-2x-blue.png"
-
+  var indexToRemove = rejectedPoints.findIndex(obj => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    rejectedPoints.splice(indexToRemove, 1);
+  }
 }
 
 
@@ -351,7 +354,12 @@ function markStar(){
   uid = doc.getAttribute("data-uid")
   marker = document.querySelector(`[alt="${uid}"]`)
   marker.src = "src/icons/marker-icon-2x-gold.png"
-
+  savedPoints.push({"uid":  uid})
+  var indexToRemove = rejectedPoints.findIndex(obj => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    rejectedPoints.splice(indexToRemove, 1);
+  }
+  
 }
 
 function unmarkStar(){
@@ -361,6 +369,10 @@ function unmarkStar(){
   uid = doc.getAttribute("data-uid")
   marker = document.querySelector(`[alt="${uid}"]`)
   marker.src = "src/icons/marker-icon-2x-blue.png"
+  var indexToRemove = savedPoints.findIndex(obj => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    savedPoints.splice(indexToRemove, 1);
+  }
 
 }
 
@@ -374,6 +386,13 @@ function markReject(){
   uid = doc.getAttribute("data-uid")
   marker = document.querySelector(`[alt="${uid}"]`)
   marker.src = "src/icons/marker-icon-2x-red.png"
+  rejectedPoints.push({"uid":  uid})
+  var indexToRemove = savedPoints.findIndex(obj => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    savedPoints.splice(indexToRemove, 1);
+  }
+
     // do dorobienia kasowanie z listy obiektów i dodanie do 2 listy
+    
 }
 
