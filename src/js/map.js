@@ -17,8 +17,8 @@ saved_tmp = {
   ]
 };
 
-let savedPoints = saved_tmp["saved"];
-let rejectedPoints = saved_tmp["rejected"];
+let savedPoints = [] // saved_tmp["saved"];
+let rejectedPoints = [] //saved_tmp["rejected"];
 let map;
 function createMap() {
   map = L.map("map").setView([54.4506593, 18.5607375125286], 7);
