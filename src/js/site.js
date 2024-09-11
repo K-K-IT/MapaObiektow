@@ -1,13 +1,16 @@
-var doc
+var doc;
 var uniqueContent;
 var udogodnienia_counter;
-
-
-const trashActive = '<ion-icon name="trash" id="reject" style="color: red; align: right" size="large" onclick="unmarkReject()"/>'
-const trashDeactive = '<ion-icon id="reject" name="trash-outline" style="color: gray; align: right" size="large" onclick="markReject()"></ion-icon>'
-const starActive = '<ion-icon name="star" id="star" style="color: gold" size="large" onclick="unmarkStar()"></ion-icon>'
-const starDeactive = '<ion-icon id="star" name="star-outline" style="color: gold" size="large" onclick="markStar()"></ion-icon>'
-
+var data;
+var status;
+const rejectActive =
+  '<ion-icon name="thumbs-down" id="reject" style="color: red; align: right" size="large" onclick="unmarkReject()"/>';
+const rejectDeactive =
+  '<ion-icon id="reject" name="thumbs-down-outline" style="color: red; align: right" size="large" onclick="markReject()"></ion-icon>';
+const starActive =
+  '<ion-icon name="star" id="star" style="color: gold" size="large" onclick="unmarkStar()"></ion-icon>';
+const starDeactive =
+  '<ion-icon id="star" name="star-outline" style="color: gold" size="large" onclick="markStar()"></ion-icon>';
 
 function createCheckboxes(data) {
   // Znajdź element z id "form"
@@ -142,19 +145,18 @@ function createFilters(kind) {
 }
 
 function fillDetails(data) {
-  let star = starDeactive
-  let reject = trashDeactive
+  let star = starDeactive;
+  let reject = rejectDeactive;
   var dane = data["content"];
-  doc = document.querySelector(`div[data-uid="${dane["uid"]}"]`)
-  var status = doc.getAttribute('status')
-  console.log(status)
-  if (status == "saved"){
-    star = starActive
+  doc = document.querySelector(`div[data-uid="${dane["uid"]}"]`);
+  status = doc.getAttribute("status");
+  console.log(status);
+  if (status === "saved") {
+    star = starActive;
   }
-  if (status == "rejected"){
-    reject = trashActive
+  if (status === "rejected") {
+    reject = rejectActive;
   }
-
 
   udogodnienia_counter = 0;
   html = `
@@ -330,69 +332,119 @@ function updateCounter() {
     udogodnienia_counter;
 }
 
-
-function unmarkReject(){
-  reject.setAttribute("style","color: gray")
-  reject.setAttribute("onclick","markReject()")
-  uid = doc.getAttribute("data-uid")
-  marker = document.querySelector(`[alt="${uid}"]`)
-  marker.src = "src/icons/marker-icon-2x-blue.png"
-  var indexToRemove = rejectedPoints.findIndex(obj => obj.uid === uid);
+function unmarkReject() {
+  reject.name = "thumbs-down-outline";
+  reject.setAttribute("onclick", "markReject()");
+  uid = doc.getAttribute("data-uid");
+  marker = document.querySelector(`[alt="${uid}"]`);
+  marker.src = "src/icons/marker-icon-2x-blue.png";
+  var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {
-    rejectedPoints.splice(indexToRemove, 1);
+    savedPoints.splice(indexToRemove, 1);
+  }
+}
+
+function markStar() {
+  star = document.querySelector("#star");
+  star.name = "star";
+  star.setAttribute("onclick", "unmarkStar()");
+  reject = document.querySelector("#reject");
+  reject.name = "thumbs-down-outline";
+  reject.setAttribute("onclick", "markReject()");
+  uid = doc.getAttribute("data-uid");
+  marker = document.querySelector(`[alt="${uid}"]`);
+  marker.src = "src/icons/marker-icon-2x-gold.png";
+
+  var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    savedPoints.splice(indexToRemove, 1);
+  }
+  savedPoints.push({
+    uid: uid,
+    status: "saved",
+    coordinates: [],
+  });
+}
+
+function unmarkStar() {
+  star = document.querySelector("#star");
+  star.name = "star-outline";
+  star.setAttribute("onclick", "markStar()");
+  uid = doc.getAttribute("data-uid");
+  marker = document.querySelector(`[alt="${uid}"]`);
+  marker.src = "src/icons/marker-icon-2x-blue.png";
+  var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    savedPoints.splice(indexToRemove, 1);
+  }
+}
+
+function markReject() {
+  star = document.querySelector("#star");
+  star.name = "star-outline";
+  star.setAttribute("onclick", "markStar()");
+  reject = document.querySelector("#reject");
+  reject.name = "thumbs-down";
+  reject.setAttribute("onclick", "unmarkReject()");
+  uid = doc.getAttribute("data-uid");
+  marker = document.querySelector(`[alt="${uid}"]`);
+  marker.src = "src/icons/marker-icon-2x-red.png";
+
+  var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    savedPoints.splice(indexToRemove, 1);
+  }
+  savedPoints.push({
+    uid: uid,
+    status: "rejected",
+    coordinates: [],
+  });
+}
+
+async function loadJSON() {
+  try {
+    const fileInput = document.getElementById("readFile");
+    const file = fileInput.files[0]; // Pobierz pierwszy plik
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const jsonData = JSON.parse(e.target.result); // Parsowanie zawartości pliku JSON
+          console.log(jsonData); // Możesz przypisać jsonData do zmiennej
+          savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
+        } catch (error) {
+          console.error("Błąd podczas parsowania JSON:", error);
+        }
+      };
+      reader.readAsText(file); // Odczytaj plik jako tekst
+    } else {
+      console.error("Nie wybrano pliku.");
+    }
+  } catch (error) {
+    console.error("Błąd:", error);
   }
 }
 
 
-function markStar(){
-  star = document.querySelector("#star")
-  star.name = "star"
-  star.setAttribute("onclick","unmarkStar()")
-  reject = document.querySelector("#reject")
-  reject.setAttribute("style","color: gray")
-  reject.setAttribute("onclick","markReject()")
-  uid = doc.getAttribute("data-uid")
-  marker = document.querySelector(`[alt="${uid}"]`)
-  marker.src = "src/icons/marker-icon-2x-gold.png"
-  savedPoints.push({"uid":  uid})
-  var indexToRemove = rejectedPoints.findIndex(obj => obj.uid === uid);
-  if (indexToRemove !== -1) {
-    rejectedPoints.splice(indexToRemove, 1);
-  }
+document.getElementById('saveButton').addEventListener('click', function() {
+  // Konwertuj obiekt na JSON
+  const json = JSON.stringify(savedPoints, null, 2);
   
-}
+  // Utwórz obiekt Blob z danymi JSON
+  const blob = new Blob([json], { type: 'application/json' });
+  
+  // Utwórz link do pobrania
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'savedPoints.json'; // Nazwa pliku
 
-function unmarkStar(){
-  star = document.querySelector("#star")
-  star.name = "star-outline"
-  star.setAttribute("onclick","markStar()")
-  uid = doc.getAttribute("data-uid")
-  marker = document.querySelector(`[alt="${uid}"]`)
-  marker.src = "src/icons/marker-icon-2x-blue.png"
-  var indexToRemove = savedPoints.findIndex(obj => obj.uid === uid);
-  if (indexToRemove !== -1) {
-    savedPoints.splice(indexToRemove, 1);
-  }
+  // Symuluj kliknięcie w link
+  document.body.appendChild(a);
+  a.click();
 
-}
-
-function markReject(){
-  star = document.querySelector("#star")
-  star.name = "star-outline"
-  star.setAttribute("onclick","markStar()")
-  reject = document.querySelector("#reject")
-  reject.setAttribute("style","color: red")
-  reject.setAttribute("onclick","unmarkReject()")
-  uid = doc.getAttribute("data-uid")
-  marker = document.querySelector(`[alt="${uid}"]`)
-  marker.src = "src/icons/marker-icon-2x-red.png"
-  rejectedPoints.push({"uid":  uid})
-  var indexToRemove = savedPoints.findIndex(obj => obj.uid === uid);
-  if (indexToRemove !== -1) {
-    savedPoints.splice(indexToRemove, 1);
-  }
-
-    // do dorobienia kasowanie z listy obiektów i dodanie do 2 listy
-    
-}
-
+  // Usuń link po pobraniu
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});

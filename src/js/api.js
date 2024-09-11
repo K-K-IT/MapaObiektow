@@ -1,3 +1,4 @@
+var categories
 let kind;
 let category;
 

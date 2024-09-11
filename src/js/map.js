@@ -1,24 +1,5 @@
-saved_tmp = {
-  saved: [
-    {
-      uid: "a868a43e-adb0-4a11-9c93-8923ffe09e83",
-      coordinates: [53.1319, 23.1589085021682],
-    },
-    {
-      uid: "35cf0285-d452-44b2-bc44-3acce9cce905",
-      coordinates: [53.797744, 21.5690052607057],
-    },
-  ],
-  rejected: [
-    {
-      uid: "9825e175-3471-408d-85f9-00296cf909a9",
-      coordinates: [53.1258019, 18.0066979998189],
-    }
-  ]
-};
+let savedPoints = []; // saved_tmp["saved"];
 
-let savedPoints = [] // saved_tmp["saved"];
-let rejectedPoints = [] //saved_tmp["rejected"];
 let map;
 function createMap() {
   map = L.map("map").setView([54.4506593, 18.5607375125286], 7);
@@ -48,11 +29,13 @@ function createMap() {
   };
   filtersButton.addTo(map);
 
-  // Dodaj przycisk "Filtry" do mapy
+  // Dodaj przycisk "O mapie" do mapy
   var aboutButton = L.control({ position: "topright" });
   aboutButton.onAdd = function (map) {
     const div = L.DomUtil.create("div", "about-button");
-    div.innerHTML = `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#aboutModal" onclick="showAboutModal()">
+    div.innerHTML = `
+    
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#aboutModal" onclick="showAboutModal()">
 
 
     O mapie
@@ -62,30 +45,51 @@ function createMap() {
   };
 
   aboutButton.addTo(map);
+
+  // Dodaj przycisk "O mapie" do mapy
+  var aboutButton = L.control({ position: "topright" });
+  aboutButton.onAdd = function (map) {
+    const div = L.DomUtil.create("div", "option-button");
+    div.innerHTML = `
+  
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#optionModal" onclick="showOptionModal()">
+
+
+  Opcje
+</button>`;
+
+    return div;
+  };
+
+  aboutButton.addTo(map);
 }
 
-function setPoint(point, uid) {
-  var isSaved = savedPoints.some((item) => item.uid === uid);
-  var isRejected = rejectedPoints.some((item) => item.uid === uid);
+// <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#optionModal" onclick="showOptionModal()">
 
+// </button>
+
+function setPoint(point, uid) {
   const popupContent = document.createElement("div");
 
   popupContent.innerHTML = ``;
   // Dodawanie własnego atrybutu
   popupContent.setAttribute("data-uid", uid);
   popupContent.setAttribute("style", "width: auto;");
-  popupContent.setAttribute("status", "None")
+  popupContent.setAttribute("status", "None");
 
   var icon = blueIcon;
-  if (isSaved) {
+  var status = "None";
+  console.log(savedPoints.find((item) => item.uid === uid))
+  try {
+    status = savedPoints.find((item) => item.uid === uid).status;
+  } catch {}
+  popupContent.setAttribute("status", status);
+  if (status === "saved") {
     icon = yellowIcon;
-    popupContent.setAttribute("status", "saved")
   }
-  if (isRejected) {
+  if (status === "rejected") {
     icon = redIcon;
-    popupContent.setAttribute("status", "rejected")
   }
-
 
   var marker = L.marker(point, {
     color: "red",
@@ -104,7 +108,10 @@ function showAboutModal() {
   var modal = new bootstrap.Modal(document.getElementById("aboutModal"));
   modal.show();
 }
-
+function showOptionModal() {
+  var opModal = new bootstrap.Modal(document.getElementById("optionModal"));
+  opModal.show();
+}
 function getPoints(e) {
   document
     .querySelectorAll(".leaflet-interactive")
@@ -145,3 +152,5 @@ function onMarkerClick(e) {
     (data) => createDetails(data)
   );
 }
+
+
