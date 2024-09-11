@@ -8,9 +8,9 @@ const rejectActive =
 const rejectDeactive =
   '<ion-icon id="reject" name="thumbs-down-outline" style="color: red; align: right" size="large" onclick="markReject()"></ion-icon>';
 const starActive =
-  '<ion-icon name="star" id="star" style="color: gold" size="large" onclick="unmarkStar()"></ion-icon>';
+  '<ion-icon name="star" id="star" style="color: yellow" size="large" onclick="unmarkStar()"></ion-icon>';
 const starDeactive =
-  '<ion-icon id="star" name="star-outline" style="color: gold" size="large" onclick="markStar()"></ion-icon>';
+  '<ion-icon id="star" name="star-outline" style="color: yellow" size="large" onclick="markStar()"></ion-icon>';
 
 function createCheckboxes(data) {
   // Znajdź element z id "form"
