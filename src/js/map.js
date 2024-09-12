@@ -68,10 +68,12 @@ function createMap() {
 
 // </button>
 
-function setPoint(point, uid,status) {
-  
+function setPoint(point, uid, status) {
   const popupContent = document.createElement("div");
-
+  var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
+  if (savedIndexToChange !== -1) {
+    point = savedPoints[savedIndexToChange].coordinates
+  } 
   popupContent.innerHTML = ``;
   // Dodawanie własnego atrybutu
   popupContent.setAttribute("data-uid", uid);
@@ -94,14 +96,15 @@ function setPoint(point, uid,status) {
     radius: 500,
     alt: uid,
     icon: icon,
+    draggable: true,
   });
   marker.addTo(map).bindPopup(popupContent);
   allMarkersOnTheMap.push({
-    "uid": uid,
-    "cooridnates": point,
-  })
+    uid: uid,
+    cooridnates: point,
+  });
   marker.on("click", onMarkerClick);
-
+  marker.on("dragend", dragedMaker);
 }
 
 function showAboutModal() {
@@ -113,31 +116,26 @@ function showOptionModal() {
   opModal.show();
 }
 
-function removePoints()
-{  document
-  .querySelectorAll(".leaflet-interactive")
-  .forEach((el) => el.remove());
-document
-  .querySelectorAll(".leaflet-shadow-pane")
-  .forEach((el) => el.remove());}
-  allMarkersOnTheMap = []
-
-  function removePoint(uid)
-  {  document
-    .querySelector(`[alt="${uid}`).remove()
-    indexToRemove = allMarkersOnTheMap.findIndex((obj) => obj.uid === uid)
-    if (indexToRemove !== -1) {
-      allMarkersOnTheMap.splice(indexToRemove, 1);
-    }
+function removePoints() {
+  document
+    .querySelectorAll(".leaflet-interactive")
+    .forEach((el) => el.remove());
+  document
+    .querySelectorAll(".leaflet-shadow-pane")
+    .forEach((el) => el.remove());
 }
-  
-  
-  
+allMarkersOnTheMap = [];
 
-
+function removePoint(uid) {
+  document.querySelector(`[alt="${uid}`).remove();
+  indexToRemove = allMarkersOnTheMap.findIndex((obj) => obj.uid === uid);
+  if (indexToRemove !== -1) {
+    allMarkersOnTheMap.splice(indexToRemove, 1);
+  }
+}
 
 function getPoints(e) {
-  removePoints()
+  removePoints();
   var points = sendCheckedValues();
 
   points.then((data) => {
@@ -147,7 +145,7 @@ function getPoints(e) {
       var modal = new bootstrap.Modal(document.getElementById("alertModal"));
       modal.show();
     }
-    allMarkersOnTheMap = []
+    allMarkersOnTheMap = [];
     for (let index = 0; index < dane["content"].length; index++) {
       point = dane["content"][index].spatialLocation.coordinates;
       uid = dane["content"][index].uid;
@@ -156,7 +154,7 @@ function getPoints(e) {
         status = savedPoints.find((item) => item.uid === uid).status;
       } catch {}
       // popupContent.setAttribute("status", status);
-      
+
       setPoint(point, uid, status);
     }
   });
@@ -178,4 +176,17 @@ function onMarkerClick(e) {
   );
 }
 
-
+// draged
+function dragedMaker() {
+  point = [this.getLatLng().lat, this.getLatLng().lng];
+  var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
+  if (savedIndexToChange !== -1) {
+    savedPoints[savedIndexToChange].coordinates = point;
+  } else {
+    savedPoints.push({
+      uid: this.options.alt,
+      status: "None",
+      coordinates: point,
+    });
+  }
+}

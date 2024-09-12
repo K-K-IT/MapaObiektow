@@ -414,11 +414,13 @@ async function loadJSON() {
           const jsonData = JSON.parse(e.target.result); // Parsowanie zawartości pliku JSON
           console.log(jsonData); // Możesz przypisać jsonData do zmiennej
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
-          savedPoints.forEach(p => {
-            point = p['coordinates']
-            uid = p['uid']
-            status = p['status']
-            setPoint(point,uid,status)
+          savedPoints.forEach((p) => {
+            point = p["coordinates"];
+            uid = p["uid"];
+            status = p["status"];
+            if (status === "saved") {
+              setPoint(point, uid, status);
+            }
           });
         } catch (error) {
           console.error("Błąd podczas parsowania JSON:", error);
@@ -433,19 +435,18 @@ async function loadJSON() {
   }
 }
 
-
-document.getElementById('saveButton').addEventListener('click', function() {
+document.getElementById("saveButton").addEventListener("click", function () {
   // Konwertuj obiekt na JSON
   const json = JSON.stringify(savedPoints, null, 2);
-  
+
   // Utwórz obiekt Blob z danymi JSON
-  const blob = new Blob([json], { type: 'application/json' });
-  
+  const blob = new Blob([json], { type: "application/json" });
+
   // Utwórz link do pobrania
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'savedPoints.json'; // Nazwa pliku
+  a.download = "savedPoints.json"; // Nazwa pliku
 
   // Symuluj kliknięcie w link
   document.body.appendChild(a);
