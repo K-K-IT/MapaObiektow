@@ -99,11 +99,12 @@ function setPoint(point, uid, status) {
     draggable: true,
   });
   marker.addTo(map).bindPopup(popupContent);
+
   allMarkersOnTheMap.push({
     uid: uid,
     cooridnates: point,
   });
-  marker.on("click", onMarkerClick);
+  // marker.on("click", onMarkerClick);
   marker.on("dragend", dragedMaker);
 }
 
