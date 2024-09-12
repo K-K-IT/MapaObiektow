@@ -2,15 +2,15 @@ var doc;
 var uniqueContent;
 var udogodnienia_counter;
 var data;
-var status;
+// var status;
 const rejectActive =
   '<ion-icon name="thumbs-down" id="reject" style="color: red; align: right" size="large" onclick="unmarkReject()"/>';
 const rejectDeactive =
   '<ion-icon id="reject" name="thumbs-down-outline" style="color: red; align: right" size="large" onclick="markReject()"></ion-icon>';
 const starActive =
-  '<ion-icon name="star" id="star" style="color: yellow" size="large" onclick="unmarkStar()"></ion-icon>';
+  '<ion-icon name="star" id="star" style="color: gold" size="large" onclick="unmarkStar()"></ion-icon>';
 const starDeactive =
-  '<ion-icon id="star" name="star-outline" style="color: yellow" size="large" onclick="markStar()"></ion-icon>';
+  '<ion-icon id="star" name="star-outline" style="color: gold" size="large" onclick="markStar()"></ion-icon>';
 
 function createCheckboxes(data) {
   // Znajdź element z id "form"
@@ -354,7 +354,7 @@ function markStar() {
   uid = doc.getAttribute("data-uid");
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-gold.png";
-
+  let point = allMarkersOnTheMap.find((item) => item.uid === uid).cooridnates;
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {
     savedPoints.splice(indexToRemove, 1);
@@ -362,7 +362,7 @@ function markStar() {
   savedPoints.push({
     uid: uid,
     status: "saved",
-    coordinates: [],
+    coordinates: point,
   });
 }
 
@@ -389,6 +389,7 @@ function markReject() {
   uid = doc.getAttribute("data-uid");
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-red.png";
+  let point = allMarkersOnTheMap.find((item) => item.uid === uid).cooridnates;
 
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {
@@ -397,7 +398,7 @@ function markReject() {
   savedPoints.push({
     uid: uid,
     status: "rejected",
-    coordinates: [],
+    coordinates: point,
   });
 }
 
@@ -413,6 +414,12 @@ async function loadJSON() {
           const jsonData = JSON.parse(e.target.result); // Parsowanie zawartości pliku JSON
           console.log(jsonData); // Możesz przypisać jsonData do zmiennej
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
+          savedPoints.forEach(p => {
+            point = p['coordinates']
+            uid = p['uid']
+            status = p['status']
+            setPoint(point,uid,status)
+          });
         } catch (error) {
           console.error("Błąd podczas parsowania JSON:", error);
         }

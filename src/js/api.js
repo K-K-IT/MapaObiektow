@@ -1,6 +1,8 @@
 var categories
 let kind;
 let category;
+var allMarkersOnTheMap = []
+
 
 async function getJSON(url) {
   return fetch(url)
@@ -48,7 +50,6 @@ async function sendCheckedValues(e) {
   if (!(v == "Polska")){
     apiUrl = apiUrl + `&voivodeship=${v}`
   }
-  console.log(apiUrl);
 
   try {
     // Pobierz dane z API asynchronicznie
@@ -56,7 +57,6 @@ async function sendCheckedValues(e) {
     const data = await response.json();
 
     // Tutaj możesz przetwarzać dane pobrane z API
-    console.log(data);
     return data; // Zwróć dane
   } catch (error) {
     console.error("Błąd podczas pobierania danych:", error);
