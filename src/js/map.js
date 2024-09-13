@@ -69,13 +69,13 @@ async function createMap() {
 
 // </button>
 
-function setPoint(point, uid, status) {
+function setPoint(point, uid, status, js = NaN) {
   //--------------------------------------------------
 try {
   var details = dane["content"].find((ele) => ele.uid == uid);
 
 } catch {
-  var details = dane["content"].find((ele) => ele.uid == uid);
+  var details = js.content
 
 }
 
@@ -237,11 +237,13 @@ function dragedMaker() {
   console.log(savedIndexToChange)
   if (savedIndexToChange !== -1) {
     savedPoints[savedIndexToChange].coordinates = point;
+    savedPoints[savedIndexToChange].moved = true
   } else {
     savedPoints.push({
       uid: this.options.alt,
       status: "None",
       coordinates: point,
+      moved: true
     });
   }
 }
