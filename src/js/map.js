@@ -71,13 +71,11 @@ async function createMap() {
 
 function setPoint(point, uid, status, js = NaN) {
   //--------------------------------------------------
-try {
-  var details = dane["content"].find((ele) => ele.uid == uid);
-
-} catch {
-  var details = js.content
-
-}
+  try {
+    var details = dane["content"].find((ele) => ele.uid == uid);
+  } catch {
+    var details = js.content;
+  }
 
   const popupContent = document.createElement("div");
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
@@ -101,21 +99,23 @@ try {
   }
 
   popupContent.innerHTML = `<div class="row">
-  <div class="col">Nazwa obiektu</div>
+  <div class="col"><b>Nazwa obiektu</b></div>
   <div class="col">${details["name"]}</div>
 </div>
 <div class="row">
   <div class="col">Rodzaj obiektu:</div>
-  <div class="row">${kind[details["kind"]]}</div>
-  <div class="col">
-    <div class="row">Klasyfikacja obiektu:</div>
-    <div class="row">${categories[details["category"]]}</div>
-    <div class="col">
-      <div class="row">Adres:</div>
-      <div class="row">
-        ${details["city"]} ${details["postalCode"]} ${details["street"]}{" "}
-        ${details["streetNumber"]} <br />
-        Telefon: ${details["phone"]}
+  <div class="col">${kind[details["kind"]]}</div>
+  </div>
+  <div class="row">
+    <div class="col">Klasyfikacja obiektu:</div>
+    <div class="col">${categories[details["category"]]}</div>
+    </div>
+    <div class="row">
+      <div class="col">Adres:</div>
+      <div class="col">
+        ${details["city"]} ${details["postalCode"]} ${details["street"]}
+  
+      </div>
       </div>
       <button
         class="button text-bg-light btn-lg"
@@ -129,7 +129,6 @@ try {
       </button>
     </div>
   </div>
-</div>
 
   `;
 
@@ -142,9 +141,8 @@ try {
     icon: icon,
     draggable: true,
   });
-  marker.addTo(map).bindPopup(popupContent, {
-    minWidth: 560,
-  });
+  marker.bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent)).addTo(map);
+  // .bindPopup.addTo(map).pop.popup({ maxWidth: 500 }).setContent(popupContent)));
 
   allMarkersOnTheMap.push({
     uid: uid,
@@ -229,21 +227,19 @@ function onMarkerClick(e) {
 // draged
 function dragedMaker() {
   point = [this.getLatLng().lat, this.getLatLng().lng];
-  uid = this.options.alt
-  
-  var savedIndexToChange = savedPoints.findIndex((obj) => 
-    obj.uid === uid
-  );
-  console.log(savedIndexToChange)
+  uid = this.options.alt;
+
+  var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
+  console.log(savedIndexToChange);
   if (savedIndexToChange !== -1) {
     savedPoints[savedIndexToChange].coordinates = point;
-    savedPoints[savedIndexToChange].moved = true
+    savedPoints[savedIndexToChange].moved = true;
   } else {
     savedPoints.push({
       uid: this.options.alt,
       status: "None",
       coordinates: point,
-      moved: true
+      moved: true,
     });
   }
 }

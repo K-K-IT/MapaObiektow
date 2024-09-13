@@ -134,6 +134,10 @@ catch{}
   }
 doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
   var udogodnienia_counter = 0;
+  www = p["www"]
+  if (!(www.toLowerCase().includes("http"))){
+    www = "https://" + www
+  }
   var html = `
   <div class="offcanvas-header">
     <h4 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie</h4>
@@ -204,7 +208,8 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
         </tr>
         <tr>
           <td>Strona WWW</td>
-          <td>${p["www"]}</td>
+          <td><a href="${www}" target="_blank">${p["www"]}</a>
+          </td>
         </tr>
         <tr>
           <td>e-mail</td>
