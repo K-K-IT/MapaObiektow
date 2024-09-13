@@ -124,8 +124,10 @@ async function fillDetails(uid) {
   var js = await getJSON(url)
   var p = js.content
   status = 'None'
+  var sav = NaN
   try{
-  status = savedPoints.find(item=>item.uid == uid).status
+   sav = savedPoints.find(item=>item.uid == uid)
+   status = sav.status
 }
 catch{}
   if (status === "saved") {
@@ -139,6 +141,10 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
   www = p["www"]
   if (!(www.toLowerCase().includes("http"))){
     www = "https://" + www
+  }
+  var coordinates = [p["spatialLocation"]["coordinates"][0],p["spatialLocation"]["coordinates"][1]]
+  if (!(sav==NaN)){
+    coordinates = [sav.coordinates[0],sav.coordinates[1]]
   }
   var html = `
   <div class="offcanvas-header">
@@ -192,12 +198,12 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
           <td colspan="2">
             <center>
               <a
-                href="https://www.google.com/maps?q=${p["spatialLocation"]["coordinates"][0]},${p["spatialLocation"]["coordinates"][1]}"
+                href="https://www.google.com/maps?q=${coordinates[0]},${coordinates[1]}"
                 target="_blank"
                 class="btn btn-primary btn-sm"
               >Google Maps</a>
               <a
-                href="https://pl.mapy.cz/turisticka?q=${p["spatialLocation"]["coordinates"][0]},${p["spatialLocation"]["coordinates"][1]}&source=coor&ids=1&x=${p["spatialLocation"]["coordinates"][0]}&y=${p["spatialLocation"]["coordinates"][1]}&z=19"
+                href="https://pl.mapy.cz/turisticka?q=${coordinates[0]},${coordinates[1]}&source=coor&ids=1&x=${coordinates[0]}&y=${coordinates[1]}&z=19"
                 target="_blank"
                 class="btn btn-success btn-sm"
               >Mapy.cz</a>
