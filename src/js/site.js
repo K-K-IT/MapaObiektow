@@ -1,7 +1,7 @@
 var js
 var doc;
 var uniqueContent;
-var udogodnienia_counter;
+var udogodnienia_counter = 0
 var data;
 // var status;
 const rejectActive =
@@ -72,9 +72,11 @@ async function createDetails(uid) {
 
   // updateCounter()
  
+    console.log(udogodnienia_counter)
+    // var details = 
+    await fillDetails(uid).then(details => detailsPanel.innerHTML = details)
+    updateCounter()
 
-    var details = await fillDetails(uid);
-    detailsPanel.innerHTML = details
     // console.log(details)
 
 }
@@ -230,40 +232,61 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
       </tbody>
     </table>
     <div class="accordion" id="accordionExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button
-            class="accordion-button"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseOne"
-            aria-expanded="true"
-            aria-controls="collapseOne"
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Udogodnienia &emsp;<span class="badge text-bg-success"  id="udogodnienia_count">740</span>
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
           >
-            Udogodnienia &emsp;<span class="badge text-bg-success" id="udogodnienia_count">740</span>
-          </button>
-        </h2>
-        <div
-          id="collapseOne"
-          class="accordion-collapse collapse"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body">
-         
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-`;
+            <div class="accordion-body">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th>Udogodnienie</th>
+                    <th>Wartość</th>
+                  </tr>
+                
+                  ${uniqueContent
+                    .map((item) => {
+                      const questionnaires = p["questionnaires"];
+                      const matchingQuestionnaire = questionnaires.find(
+                        (q) => q.key === item.key
+                      );
+                      if (matchingQuestionnaire) {
+                        udogodnienia_counter = udogodnienia_counter + 1;
+                        return `
+                        <tr>
+                          <td>${matchingQuestionnaire.name}</td>
+                          <td>${matchingQuestionnaire.value}</td>
+                        </tr>
+                      `;
+                      }
+                      return "";
+                    })
+                    .join("")}
+           
+                  `;
 
-
+      
   return html;
 }
 
 function updateCounter() {
-  document.getElementById("udogodnienia_count").textContent =
-    udogodnienia_counter;
+  var v = document.getElementsByClassName("accordion-body")[0].firstElementChild.firstElementChild.children.length-1
+  document.getElementById("udogodnienia_count").textContent =  `${v}`
+;
 }
 
 function unmarkReject() {
