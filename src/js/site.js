@@ -66,46 +66,16 @@ function createQ() {
     );
 }
 
-function createDetails(data) {
-  var dane = data["content"];
-  var popup = document.querySelector(`div[data-uid="${dane["uid"]}"]`);
+async function createDetails(uid) {
+  detailsPanel = document.getElementById("offcanvasRight");
 
-  if (popup) {
-    var www = dane["www"];
-    try {
-      if (!www.includes("https://") & (www.length > 0)) {
-        www = "https://" + dane["www"];
-      }
-    } catch {}
+  // updateCounter()
+ 
 
-    detailsPanel = document.getElementById("offcanvasRight");
+    var details = await fillDetails(uid);
+    detailsPanel.innerHTML = details
+    console.log(details)
 
-    popup.innerHTML = `<b>${dane["name"]}</b><br>
-    Rodzaj obiektu: ${kind[dane["kind"]]}<br>
-    Klasyfikacja obiektu: ${categories[dane["category"]]} <br>
-    Adres: ${dane["city"]} ${dane["postalCode"]} <br>
-    ${dane["street"]} ${dane["streetNumber"]} <br>
-    Telefon: ${dane["phone"]}<br>
-    WWW: <a href=${www} target="_blank">${www}</a><br>
-    e-mail: ${dane["email"]}<br>
-    <button
-      class="button  text-bg-light btn-lg"
-      data-bs-toggle="offcanvas"
-      href="#offcanvasRight"
-      role="button"
-      aria-controls="offcanvasRight"
-      onclick="updateCounter()"
-    >
-      Szczegóły
-    </button>
-    
-
-    `;
-
-    detailsPanel.innerHTML = fillDetails(data);
-  } else {
-    console.log("Nie znaleziono elementu div z data-uid:", uid);
-  }
 }
 
 function createFilterKind(kind) {
@@ -144,185 +114,140 @@ function createFilters(kind) {
   createFilterKind(kind);
 }
 
-function fillDetails(data) {
+async function fillDetails(uid) {
   let star = starDeactive;
   let reject = rejectDeactive;
-  var dane = data["content"];
-  doc = document.querySelector(`div[data-uid="${dane["uid"]}"]`);
-  status = doc.getAttribute("status");
-  console.log(status);
+  let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid
+  var js = await getJSON(url)
+  var p = js.content
+  console.log(p)
+  status = allMarkersOnTheMap.find(item=>item.uid == uid).status
   if (status === "saved") {
     star = starActive;
   }
   if (status === "rejected") {
     reject = rejectActive;
   }
-
-  udogodnienia_counter = 0;
-  html = `
-<div class="offcanvas-header">
-        <h4 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie
-        </h4>
-        <button
-       
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button> <br>  </div>
-      <div class="offcanvas-body">
-       <div>${star}&emsp;&emsp;${reject}</div>
-       <br>
-      <table class="table table-bordered">
-        <tbody>
-               
-          <tr>
-            <th>Nazwa pola</th>
-            <th>Wartość</th>
-          </tr>
-             <tr>
-            <td>Nazwa obiektu</td>
-            <td>${data["content"]["name"]}</td>
-          </tr>
-          <tr>
-            <td>Rodzaj obiektu</td>
-            <td>${kind[data["content"]["kind"]]}</td>
-          </tr>
-          <tr>
-            <td>Klasa obiektu</td>
-            <td>${categories[data["content"]["category"]]}</td>
-          </tr>
-
-          <tr>
-            <td>Opis</td>
-            <td>
-            ${data["content"]["description"]}
-            </td>
-          </tr>
-          <tr>
-            <td>Lokalizacja</td>
-            <td>
-            ${data["content"]["location"]}
-            </td>
-          </tr>
-          <tr>
-            <td>Właściciel</td>
-            <td>
-            ${data["content"]["ownerName"]}
-            </td>          </tr>
-          <tr>
-            <td>Adres</td>
-            <td>  ${data["content"]["postalCode"]} ${
-    data["content"]["city"]
-  }<br>  ${data["content"]["street"]}  ${
-    data["content"]["streetNumber"]
-  }<br>  ${data["content"]["voivodeship"]}</td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <center>
-                <a
-                  href="https://www.google.com/maps?q=${
-                    data["content"]["spatialLocation"]["coordinates"][0]
-                  },${data["content"]["spatialLocation"]["coordinates"][1]}"
-                  target="_blank"
-                  class="btn btn-primary btn-sm"
-                  >Google Maps</a
-                >
-                <a
-                  href="https://pl.mapy.cz/turisticka?q=${
-                    data["content"]["spatialLocation"]["coordinates"][0]
-                  },${
-    data["content"]["spatialLocation"]["coordinates"][1]
-  }&source=coor&ids=1&x=${
-    data["content"]["spatialLocation"]["coordinates"][0]
-  }&y=${data["content"]["spatialLocation"]["coordinates"][1]}&z=19"
-                  
-
-                  target="_blank"
-                  class="btn btn-success btn-sm"
-                  >Mapy.cz</a
-                >
-              </center>
-            </td>
-          </tr>
-          <tr>
-            <td>Telefon</td>
-            <td> ${data["content"]["phone"]}</td>
-          </tr>
-          <tr>
-            <td>Strona WWW</td>
-            <td>
-              
-                  ${data["content"]["www"]}
-              
-            </td>
-          </tr>
-          <tr>
-            <td>e-mail</td>
-            <td>  ${data["content"]["email"]}</td>
-          </tr>
-          <tr>
-            <td>Data rejestracji</td>
-            <td>  ${data["content"]["registrationDate"]}</td>
-          </tr>
-          <tr>
-            <td>Ilość pokoi</td>
-            <td>  ${data["content"]["housingUnitsNumber"]}</td>
-          </tr>
-          <tr>
-            <td>Budynek zabytkowy</td>
-            <td>  ${data["content"]["registryMonuments"]}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button
-              class="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseOne"
-              aria-expanded="true"
-              aria-controls="collapseOne"
-            >
-              Udogodnienia &emsp;<span class="badge text-bg-success" align="right" id="udogodnienia_count">740</span>
-            </button>
-          </h2>
-          <div
-            id="collapseOne"
-            class="accordion-collapse collapse"
-            data-bs-parent="#accordionExample"
+doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
+  var udogodnienia_counter = 0;
+  var html = `
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvasRightLabel">Informacje o obiekcie</h4>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+    <br>
+  </div>
+  <div class="offcanvas-body">
+    <div>${star}&emsp;&emsp;${reject}</div>
+    <br>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>Nazwa pola</th>
+          <th>Wartość</th>
+        </tr>
+        <tr>
+          <td>Nazwa obiektu</td>
+          <td>${p["name"]}</td>
+        </tr>
+        <tr>
+          <td>Rodzaj obiektu</td>
+          <td>${kind[p["kind"]]}</td>
+        </tr>
+        <tr>
+          <td>Klasa obiektu</td>
+          <td>${categories[p["category"]]}</td>
+        </tr>
+        <tr>
+          <td>Opis</td>
+          <td>${p["description"]}</td>
+        </tr>
+        <tr>
+          <td>Lokalizacja</td>
+          <td>${p["location"]}</td>
+        </tr>
+        <tr>
+          <td>Właściciel</td>
+          <td>${p["ownerName"]}</td>
+        </tr>
+        <tr>
+          <td>Adres</td>
+          <td>${p["postalCode"]} ${p["city"]}<br>${p["street"]} ${p["streetNumber"]}<br>${p["voivodeship"]}</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <center>
+              <a
+                href="https://www.google.com/maps?q=${p["spatialLocation"]["coordinates"][0]},${p["spatialLocation"]["coordinates"][1]}"
+                target="_blank"
+                class="btn btn-primary btn-sm"
+              >Google Maps</a>
+              <a
+                href="https://pl.mapy.cz/turisticka?q=${p["spatialLocation"]["coordinates"][0]},${p["spatialLocation"]["coordinates"][1]}&source=coor&ids=1&x=${p["spatialLocation"]["coordinates"][0]}&y=${p["spatialLocation"]["coordinates"][1]}&z=19"
+                target="_blank"
+                class="btn btn-success btn-sm"
+              >Mapy.cz</a>
+            </center>
+          </td>
+        </tr>
+        <tr>
+          <td>Telefon</td>
+          <td>${p["phone"]}</td>
+        </tr>
+        <tr>
+          <td>Strona WWW</td>
+          <td>${p["www"]}</td>
+        </tr>
+        <tr>
+          <td>e-mail</td>
+          <td>${p["email"]}</td>
+        </tr>
+        <tr>
+          <td>Data rejestracji</td>
+          <td>${p["registrationDate"]}</td>
+        </tr>
+        <tr>
+          <td>Ilość pokoi</td>
+          <td>${p["housingUnitsNumber"]}</td>
+        </tr>
+        <tr>
+          <td>Budynek zabytkowy</td>
+          <td>${p["registryMonuments"]}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
           >
-            <div class="accordion-body">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <th>Udogodnienie</th>
-                    <th>Wartość</th>
-                  </tr>
-                
-                  ${uniqueContent
-                    .map((item) => {
-                      const questionnaires = data["content"]["questionnaires"];
-                      const matchingQuestionnaire = questionnaires.find(
-                        (q) => q.key === item.key
-                      );
-                      if (matchingQuestionnaire) {
-                        udogodnienia_counter = udogodnienia_counter + 1;
-                        return `
-                        <tr>
-                          <td>${matchingQuestionnaire.name}</td>
-                          <td>${matchingQuestionnaire.value}</td>
-                        </tr>
-                      `;
-                      }
-                      return "";
-                    })
-                    .join("")}
-                  </div>
-                  `;
+            Udogodnienia &emsp;<span class="badge text-bg-success" id="udogodnienia_count">740</span>
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
 
   return html;
 }

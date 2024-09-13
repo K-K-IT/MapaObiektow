@@ -1,7 +1,8 @@
+var dane;
 let savedPoints = []; // saved_tmp["saved"];
 
 let map;
-function createMap() {
+async function createMap() {
   map = L.map("map").setView([54.4506593, 18.5607375125286], 7);
 
   const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -69,16 +70,31 @@ function createMap() {
 // </button>
 
 function setPoint(point, uid, status) {
+  //--------------------------------------------------
+
+  var details = dane["content"].find((ele) => ele.uid == uid);
+  // var popup = document.querySelector(`div[data-uid="${details["uid"]}"]`);
+
+  // var www = details["www"];
+  // try {
+  //   if (!www.includes("https://") & (www.length > 0)) {
+  //     www = "https://" + details["www"];
+  //   }
+  // } catch {}
+
+  //-------------------------------------------------
+
   const popupContent = document.createElement("div");
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
   if (savedIndexToChange !== -1) {
-    point = savedPoints[savedIndexToChange].coordinates
-  } 
-  popupContent.innerHTML = ``;
+    point = savedPoints[savedIndexToChange].coordinates;
+  }
+
   // Dodawanie własnego atrybutu
   popupContent.setAttribute("data-uid", uid);
   popupContent.setAttribute("style", "width: auto;");
   popupContent.setAttribute("status", "None");
+  popupContent.className = "container";
 
   var icon = blueIcon;
 
@@ -89,6 +105,39 @@ function setPoint(point, uid, status) {
     icon = redIcon;
   }
 
+  popupContent.innerHTML = `<div class="row">
+  <div class="col">Nazwa obiektu</div>
+  <div class="col">${details["name"]}</div>
+</div>
+<div class="row">
+  <div class="col">Rodzaj obiektu:</div>
+  <div class="row">${kind[details["kind"]]}</div>
+  <div class="col">
+    <div class="row">Klasyfikacja obiektu:</div>
+    <div class="row">${categories[details["category"]]}</div>
+    <div class="col">
+      <div class="row">Adres:</div>
+      <div class="row">
+        ${details["city"]} ${details["postalCode"]} ${details["street"]}{" "}
+        ${details["streetNumber"]} <br />
+        Telefon: ${details["phone"]}
+      </div>
+      <button
+        class="button text-bg-light btn-lg"
+        data-bs-toggle="offcanvas"
+        href="#offcanvasRight"
+        role="button"
+        aria-controls="offcanvasRight"
+        onclick="createDetails('${details["uid"]}')"
+      >
+        Szczegóły
+      </button>
+    </div>
+  </div>
+</div>
+
+  `;
+
   var marker = L.marker(point, {
     color: "red",
     fillColor: "#f03",
@@ -98,13 +147,17 @@ function setPoint(point, uid, status) {
     icon: icon,
     draggable: true,
   });
-  marker.addTo(map).bindPopup(popupContent);
+  marker.addTo(map).bindPopup(popupContent, {
+    minWidth: 560,
+  });
 
   allMarkersOnTheMap.push({
     uid: uid,
     cooridnates: point,
+    status: status,
   });
   // marker.on("click", onMarkerClick);
+  marker.on("click()", onMarkerClick);
   marker.on("dragend", dragedMaker);
 }
 
@@ -162,8 +215,8 @@ function getPoints(e) {
 }
 
 function showDetails(uid) {
-  a = getJSON("https://api.turystyka.gov.pl/registers/open/cwoh/" + uid);
-  return a;
+  getJSON("https://api.turystyka.gov.pl/registers/open/cwoh/" + uid).then((j) => {return j})
+
 }
 
 // Funkcja do obsługi kliknięcia na marker
