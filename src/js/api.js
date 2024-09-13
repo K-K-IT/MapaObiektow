@@ -68,7 +68,7 @@ async function sendCheckedValues(e) {
 sendCheckedValues(event).then((data) => {
   if (data) {
     // Tutaj masz dostęp do danych
-    console.log("Dane:", data);
+    // console.log("Dane:", data);
     // Możesz dalej pracować na danych
   }
 });

@@ -71,18 +71,13 @@ async function createMap() {
 
 function setPoint(point, uid, status) {
   //--------------------------------------------------
-
+try {
   var details = dane["content"].find((ele) => ele.uid == uid);
-  // var popup = document.querySelector(`div[data-uid="${details["uid"]}"]`);
 
-  // var www = details["www"];
-  // try {
-  //   if (!www.includes("https://") & (www.length > 0)) {
-  //     www = "https://" + details["www"];
-  //   }
-  // } catch {}
+} catch {
+  var details = dane["content"].find((ele) => ele.uid == uid);
 
-  //-------------------------------------------------
+}
 
   const popupContent = document.createElement("div");
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
@@ -157,7 +152,7 @@ function setPoint(point, uid, status) {
     status: status,
   });
   // marker.on("click", onMarkerClick);
-  marker.on("click()", onMarkerClick);
+  // marker.on("click()", onMarkerClick);
   marker.on("dragend", dragedMaker);
 }
 
@@ -188,35 +183,36 @@ function removePoint(uid) {
   }
 }
 
-function getPoints(e) {
+async function getPoints(e) {
   removePoints();
-  var points = sendCheckedValues();
+  var points = await sendCheckedValues();
 
-  points.then((data) => {
-    dane = data;
+  dane = points;
 
-    if (dane["content"].length > 1999) {
-      var modal = new bootstrap.Modal(document.getElementById("alertModal"));
-      modal.show();
-    }
-    allMarkersOnTheMap = [];
-    for (let index = 0; index < dane["content"].length; index++) {
-      point = dane["content"][index].spatialLocation.coordinates;
-      uid = dane["content"][index].uid;
-      var status = "None";
-      try {
-        status = savedPoints.find((item) => item.uid === uid).status;
-      } catch {}
-      // popupContent.setAttribute("status", status);
+  if (dane["content"].length > 1999) {
+    var modal = new bootstrap.Modal(document.getElementById("alertModal"));
+    modal.show();
+  }
+  allMarkersOnTheMap = [];
+  for (let index = 0; index < dane["content"].length; index++) {
+    point = dane["content"][index].spatialLocation.coordinates;
+    uid = dane["content"][index].uid;
+    var status = "None";
+    try {
+      status = savedPoints.find((item) => item.uid === uid).status;
+    } catch {}
+    // popupContent.setAttribute("status", status);
 
-      setPoint(point, uid, status);
-    }
-  });
+    setPoint(point, uid, status);
+  }
 }
 
 function showDetails(uid) {
-  getJSON("https://api.turystyka.gov.pl/registers/open/cwoh/" + uid).then((j) => {return j})
-
+  getJSON("https://api.turystyka.gov.pl/registers/open/cwoh/" + uid).then(
+    (j) => {
+      return j;
+    }
+  );
 }
 
 // Funkcja do obsługi kliknięcia na marker
@@ -233,7 +229,12 @@ function onMarkerClick(e) {
 // draged
 function dragedMaker() {
   point = [this.getLatLng().lat, this.getLatLng().lng];
-  var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
+  uid = this.options.alt
+  
+  var savedIndexToChange = savedPoints.findIndex((obj) => 
+    obj.uid === uid
+  );
+  console.log(savedIndexToChange)
   if (savedIndexToChange !== -1) {
     savedPoints[savedIndexToChange].coordinates = point;
   } else {

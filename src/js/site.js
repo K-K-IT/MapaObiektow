@@ -74,12 +74,12 @@ async function createDetails(uid) {
 
     var details = await fillDetails(uid);
     detailsPanel.innerHTML = details
-    console.log(details)
+    // console.log(details)
 
 }
 
 function createFilterKind(kind) {
-  console.log(kind);
+  // console.log(kind);
   const el = document.getElementById("kind-filter");
 
   for (const key in kind) {
@@ -120,8 +120,11 @@ async function fillDetails(uid) {
   let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid
   var js = await getJSON(url)
   var p = js.content
-  console.log(p)
-  status = allMarkersOnTheMap.find(item=>item.uid == uid).status
+  status = 'None'
+  try{
+  status = savedPoints.find(item=>item.uid == uid).status
+}
+catch{}
   if (status === "saved") {
     star = starActive;
   }
@@ -258,6 +261,7 @@ function updateCounter() {
 }
 
 function unmarkReject() {
+  reject = document.querySelector("#reject");
   reject.name = "thumbs-down-outline";
   reject.setAttribute("onclick", "markReject()");
   uid = doc.getAttribute("data-uid");
@@ -337,7 +341,7 @@ async function loadJSON() {
       reader.onload = function (e) {
         try {
           const jsonData = JSON.parse(e.target.result); // Parsowanie zawartości pliku JSON
-          console.log(jsonData); // Możesz przypisać jsonData do zmiennej
+          // console.log(jsonData); // Możesz przypisać jsonData do zmiennej
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
           savedPoints.forEach((p) => {
             point = p["coordinates"];
