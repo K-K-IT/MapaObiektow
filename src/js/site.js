@@ -72,16 +72,16 @@ async function createDetails(uid) {
 
   // updateCounter()
 
-  console.log(udogodnienia_counter);
+  
   // var details =
   await fillDetails(uid).then((details) => (detailsPanel.innerHTML = details));
   updateCounter();
 
-  // console.log(details)
+  
 }
 
 function createFilterKind(kind) {
-  // console.log(kind);
+  
   const el = document.getElementById("kind-filter");
 
   for (const key in kind) {
@@ -137,7 +137,8 @@ async function fillDetails(uid) {
   doc = document.querySelector(`div[data-uid="${p["uid"]}"]`);
   var udogodnienia_counter = 0;
   www = p["www"];
-  if (!www.toLowerCase().includes("http")) {
+
+  if (!(www == null) && (!www.toLowerCase().includes("http"))) {
     www = "https://" + www;
   }
   var coordinates = [
@@ -384,7 +385,7 @@ async function loadJSON() {
       reader.onload = function (e) {
         try {
           const jsonData = JSON.parse(e.target.result); // Parsowanie zawartości pliku JSON
-          // console.log(jsonData); // Możesz przypisać jsonData do zmiennej
+          
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
           savedPoints.forEach(async (p) => {
             status = p.data.status

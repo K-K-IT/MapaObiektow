@@ -73,12 +73,10 @@ function setPoint(point, uid, status, js = NaN) {
   //--------------------------------------------------
   try {
     var details = dane["content"].find((ele) => ele.uid == uid);
-    console.log(details)
 
     
   } catch {
     var details = js;
-    console.log(details)
 
   }
 
@@ -147,15 +145,7 @@ function setPoint(point, uid, status, js = NaN) {
     draggable: true,
   });
   marker.bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent)).addTo(map);
-  // .bindPopup.addTo(map).pop.popup({ maxWidth: 500 }).setContent(popupContent)));
 
-  // allMarkersOnTheMap.push({
-  //   uid: uid,
-  //   cooridnates: point,
-  //   status: status,
-  // });
-  // marker.on("click", onMarkerClick);
-  // marker.on("click()", onMarkerClick);
   marker.on("dragend", dragedMaker);
 }
 

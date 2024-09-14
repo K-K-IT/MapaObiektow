@@ -65,13 +65,13 @@ async function sendCheckedValues(e) {
   }
 }
 
-sendCheckedValues(event).then((data) => {
-  if (data) {
-    // Tutaj masz dostęp do danych
-    // console.log("Dane:", data);
-    // Możesz dalej pracować na danych
-  }
-});
+// sendCheckedValues(event).then((data) => {
+//   if (data) {
+//     // Tutaj masz dostęp do danych
+    
+//     // Możesz dalej pracować na danych
+//   }
+// });
 
 function getData(url) {
   // const url1 = 'https://api.turystyka.gov.pl/registers/open/cwoh/filters/questionnaires';
