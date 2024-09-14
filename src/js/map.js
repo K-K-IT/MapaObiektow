@@ -26,56 +26,92 @@ async function createMap() {
     }
   );
 
+  const OpenTopoMap = L.tileLayer(
+    "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    }
+  );
 
+  var CyclOSM = L.tileLayer(
+    "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }
+  );
 
-  const OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-  });
+  var MtbMap = L.tileLayer(
+    "http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png",
+    {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; USGS',
+    }
+  );
 
-  var CyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  });
-
-  var MtbMap = L.tileLayer('http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; USGS'
-  });
-  var Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
-    minZoom: 0,
-    maxZoom: 19,
-    attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    ext: 'jpg'
-  });
-  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-  });
-
-
-  var WaymarkedTrails_hiking = L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-  });
-  var WaymarkedTrails_cycling = L.tileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-  });
-  var baseMaps = {
-    "Satelita (Stadia)":Stadia_AlidadeSatellite,
-    "Satelita (ESRI)": Esri_WorldImagery,
-    "OpenStreetMap": osm,
-    "OpenStreetMap.HOT": osmHOT,
-    "OpenTopoMap": OpenTopoMap,
-    "Rowerowa (CyclOSM)": CyclOSM,
-    "Rowerowa (MtbMap)": MtbMap
+  var Esri_WorldImagery = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      attribution:
+        "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+    }
+  );
+  var wmsSrodowisko = L.tileLayer.wms('http://sdi.gdos.gov.pl/wms', {
+    layers: 'GDOS:ObszaryChronionegoKrajobrazu,GDOS:ObszarySpecjalnejOchrony,GDOS:ParkiKrajobrazowe,GDOS:ParkiNarodowe,GDOS:PomnikiPrzyrody,GDOS:Rezerwaty,GDOS:SpecjalneObszaryOchrony,GDOS:StanowiskaDokumentacyjne,GDOS:UzytkiEkologiczne,GDOS:ZespolyPrzyrodniczoKrajobrazowe',
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.1',
+    attribution: '© GDOŚ',
+    styles: '', // Puste style, jeśli nie są wymagane
+})
+  // Dodanie warstwy WMS
+  var wmsRejestrZabytkow = L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
+    layers: 'Immovable_Monuments',
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.1',
+    attribution: '© Zabytek',
+    styles: '', // Puste style, jeśli nie są wymagane
+})
   
+  var WaymarkedTrails_hiking = L.tileLayer(
+    "https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    }
+  );
+  var WaymarkedTrails_cycling = L.tileLayer(
+    "https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png",
+    {
+      maxZoom: 18,
+      attribution:
+        'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+    }
+  );
+  var baseMaps = {
+    "Satelita (ESRI)": Esri_WorldImagery,
+    OpenStreetMap: osm,
+    "OpenStreetMap.HOT": osmHOT,
+    OpenTopoMap: OpenTopoMap,
+    "Rowerowa (CyclOSM)": CyclOSM,
+    "Rowerowa (MtbMap)": MtbMap,
   };
   var overlayMaps = {
     "Szlaki piesze (WaymarkedTrails)": WaymarkedTrails_hiking,
-    "Szlaki rowerowe (WaymarkedTrails)": WaymarkedTrails_cycling
-};
-  map = L.map("map",{layers: [osm]}).setView([54.4506593, 18.5607375125286], 7);
-  var layerControl = L.control.layers(baseMaps,overlayMaps).addTo(map);
+    "Szlaki rowerowe (WaymarkedTrails)": WaymarkedTrails_cycling,
+    "Rejestr zabytków": wmsRejestrZabytkow,
+    "GDOŚ": wmsSrodowisko,
+  };
+  map = L.map("map", { layers: [osm] }).setView(
+    [54.4506593, 18.5607375125286],
+    7
+  );
+  var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
   const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -218,6 +254,7 @@ function setPoint(point, uid, status, js = NaN) {
     .addTo(map);
 
   marker.on("dragend", dragedMaker);
+  
 }
 
 function showAboutModal() {
@@ -308,3 +345,4 @@ function dragedMaker() {
     addToSaved(uid, data);
   }
 }
+
