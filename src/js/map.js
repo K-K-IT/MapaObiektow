@@ -2,8 +2,80 @@ var dane;
 let savedPoints = []; // saved_tmp["saved"];
 
 let map;
+
 async function createMap() {
-  map = L.map("map").setView([54.4506593, 18.5607375125286], 7);
+  var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "© OpenStreetMap",
+  });
+
+  var osmHOT = L.tileLayer(
+    "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        "© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France",
+    }
+  );
+  var osmHOT = L.tileLayer(
+    "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        "© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France",
+    }
+  );
+
+
+
+  const OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+  });
+
+  var CyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+
+  var MtbMap = L.tileLayer('http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; USGS'
+  });
+  var Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
+    minZoom: 0,
+    maxZoom: 19,
+    attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    ext: 'jpg'
+  });
+  var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  });
+
+
+  var WaymarkedTrails_hiking = L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+  });
+  var WaymarkedTrails_cycling = L.tileLayer('https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+  });
+  var baseMaps = {
+    "Satelita (Stadia)":Stadia_AlidadeSatellite,
+    "Satelita (ESRI)": Esri_WorldImagery,
+    "OpenStreetMap": osm,
+    "OpenStreetMap.HOT": osmHOT,
+    "OpenTopoMap": OpenTopoMap,
+    "Rowerowa (CyclOSM)": CyclOSM,
+    "Rowerowa (MtbMap)": MtbMap
+  
+  };
+  var overlayMaps = {
+    "Szlaki piesze (WaymarkedTrails)": WaymarkedTrails_hiking,
+    "Szlaki rowerowe (WaymarkedTrails)": WaymarkedTrails_cycling
+};
+  map = L.map("map",{layers: [osm]}).setView([54.4506593, 18.5607375125286], 7);
+  var layerControl = L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -73,11 +145,8 @@ function setPoint(point, uid, status, js = NaN) {
   //--------------------------------------------------
   try {
     var details = dane["content"].find((ele) => ele.uid == uid);
-
-    
   } catch {
     var details = js;
-
   }
 
   const popupContent = document.createElement("div");
@@ -144,7 +213,9 @@ function setPoint(point, uid, status, js = NaN) {
     icon: icon,
     draggable: true,
   });
-  marker.bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent)).addTo(map);
+  marker
+    .bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent))
+    .addTo(map);
 
   marker.on("dragend", dragedMaker);
 }
@@ -224,18 +295,16 @@ function dragedMaker() {
   point = [this.getLatLng().lat, this.getLatLng().lng];
   uid = this.options.alt;
 
-
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
-if (savedIndexToChange !== -1) {
-  savedPoints[savedIndexToChange].data.coordinates = point;
-  savedPoints[savedIndexToChange].data.moved = true;
-} else {
-  data = {
-    status: "None",
-    coordinates: point,
-    moved: true,
-  };
-  addToSaved(uid, data)
-}
-
+  if (savedIndexToChange !== -1) {
+    savedPoints[savedIndexToChange].data.coordinates = point;
+    savedPoints[savedIndexToChange].data.moved = true;
+  } else {
+    data = {
+      status: "None",
+      coordinates: point,
+      moved: true,
+    };
+    addToSaved(uid, data);
+  }
 }
