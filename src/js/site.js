@@ -1,7 +1,7 @@
-var js
+var js;
 var doc;
 var uniqueContent;
-var udogodnienia_counter = 0
+var udogodnienia_counter = 0;
 var data;
 // var status;
 const rejectActive =
@@ -71,14 +71,13 @@ async function createDetails(uid) {
   detailsPanel = document.getElementById("offcanvasRight");
 
   // updateCounter()
- 
-    console.log(udogodnienia_counter)
-    // var details = 
-    await fillDetails(uid).then(details => detailsPanel.innerHTML = details)
-    updateCounter()
 
-    // console.log(details)
+  console.log(udogodnienia_counter);
+  // var details =
+  await fillDetails(uid).then((details) => (detailsPanel.innerHTML = details));
+  updateCounter();
 
+  // console.log(details)
 }
 
 function createFilterKind(kind) {
@@ -120,31 +119,33 @@ function createFilters(kind) {
 async function fillDetails(uid) {
   let star = starDeactive;
   let reject = rejectDeactive;
-  let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid
-  var js = await getJSON(url)
-  var p = js.content
-  status = 'None'
-  var sav = NaN
-  try{
-   sav = savedPoints.find(item=>item.uid == uid)
-   status = sav.status
-}
-catch{}
+  let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid;
+  var js = await getJSON(url);
+  var p = js.content;
+  status = "None";
+  var sav = NaN;
+  try {
+    sav = savedPoints.find((item) => item.uid == uid);
+    status = sav.data.status;
+  } catch {}
   if (status === "saved") {
     star = starActive;
   }
   if (status === "rejected") {
     reject = rejectActive;
   }
-doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
+  doc = document.querySelector(`div[data-uid="${p["uid"]}"]`);
   var udogodnienia_counter = 0;
-  www = p["www"]
-  if (!(www.toLowerCase().includes("http"))){
-    www = "https://" + www
+  www = p["www"];
+  if (!www.toLowerCase().includes("http")) {
+    www = "https://" + www;
   }
-  var coordinates = [p["spatialLocation"]["coordinates"][0],p["spatialLocation"]["coordinates"][1]]
-  if (!(sav==NaN)){
-    coordinates = [sav.coordinates[0],sav.coordinates[1]]
+  var coordinates = [
+    p["spatialLocation"]["coordinates"][0],
+    p["spatialLocation"]["coordinates"][1],
+  ];
+  if (!(sav == undefined) && !(sav == NaN)) {
+    coordinates = [sav.data.coordinates[0], sav.data.coordinates[1]];
   }
   var html = `
   <div class="offcanvas-header">
@@ -192,18 +193,24 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
         </tr>
         <tr>
           <td>Adres</td>
-          <td>${p["postalCode"]} ${p["city"]}<br>${p["street"]} ${p["streetNumber"]}<br>${p["voivodeship"]}</td>
+          <td>${p["postalCode"]} ${p["city"]}<br>${p["street"]} ${
+    p["streetNumber"]
+  }<br>${p["voivodeship"]}</td>
         </tr>
         <tr>
           <td colspan="2">
             <center>
               <a
-                href="https://www.google.com/maps?q=${coordinates[0]},${coordinates[1]}"
+                href="https://www.google.com/maps?q=${coordinates[0]},${
+    coordinates[1]
+  }"
                 target="_blank"
                 class="btn btn-primary btn-sm"
               >Google Maps</a>
               <a
-                href="https://pl.mapy.cz/turisticka?q=${coordinates[0]},${coordinates[1]}&source=coor&ids=1&x=${coordinates[0]}&y=${coordinates[1]}&z=19"
+                href="https://pl.mapy.cz/turisticka?q=${coordinates[0]},${
+    coordinates[1]
+  }&source=coor&ids=1&x=${coordinates[0]}&y=${coordinates[1]}&z=19"
                 target="_blank"
                 class="btn btn-success btn-sm"
               >Mapy.cz</a>
@@ -285,14 +292,14 @@ doc = document.querySelector(`div[data-uid="${p["uid"]}"]`)
            
                   `;
 
-      
   return html;
 }
 
 function updateCounter() {
-  var v = document.getElementsByClassName("accordion-body")[0].firstElementChild.firstElementChild.children.length-1
-  document.getElementById("udogodnienia_count").textContent =  `${v}`
-;
+  var v =
+    document.getElementsByClassName("accordion-body")[0].firstElementChild
+      .firstElementChild.children.length - 1;
+  document.getElementById("udogodnienia_count").textContent = `${v}`;
 }
 
 function unmarkReject() {
@@ -303,11 +310,10 @@ function unmarkReject() {
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-blue.png";
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
-  if (indexToRemove !== -1 & savedPoints[indexToRemove].moved === true) {
-    savedPoints[indexToRemove].status = "None"
-    
+  if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === true)) {
+    savedPoints[indexToRemove].status = "None";
   }
-  if (indexToRemove !== -1 & savedPoints[indexToRemove].moved === false) {
+  if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === false)) {
     savedPoints.splice(indexToRemove, 1);
   }
 }
@@ -322,22 +328,16 @@ function markStar() {
   uid = doc.getAttribute("data-uid");
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-gold.png";
-  let point = allMarkersOnTheMap.find((item) => item.uid === uid).cooridnates;
+  var point = allMarkersOnTheMap.find((item) => item.uid === uid).spatialLocation.coordinates;
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
-  var mov = false
-  if (indexToRemove !== -1) {
-    mov = savedPoints[indexToRemove].moved
-    savedPoints.splice(indexToRemove, 1);
-    
-  }
-  savedPoints.push({
-    uid: uid,
-    status: "saved",
-    coordinates: point,
-    moved: mov
-  });
-}
 
+  if (indexToRemove !== -1) {
+    savedPoints[indexToRemove].data.status = "saved";
+  } else {
+    data = { status: "saved", coordinates: point, moved: false };
+    addToSaved(uid, data);
+  }
+}
 function unmarkStar() {
   star = document.querySelector("#star");
   star.name = "star-outline";
@@ -346,11 +346,10 @@ function unmarkStar() {
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-blue.png";
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
-  if (indexToRemove !== -1 & savedPoints[indexToRemove].moved === true) {
-    savedPoints[indexToRemove].status = "None"
-    
+  if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === true)) {
+    savedPoints[indexToRemove].status = "None";
   }
-  if (indexToRemove !== -1 & savedPoints[indexToRemove].moved === false) {
+  if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === false)) {
     savedPoints.splice(indexToRemove, 1);
   }
 }
@@ -365,20 +364,14 @@ function markReject() {
   uid = doc.getAttribute("data-uid");
   marker = document.querySelector(`[alt="${uid}"]`);
   marker.src = "src/icons/marker-icon-2x-red.png";
-  let point = allMarkersOnTheMap.find((item) => item.uid === uid).cooridnates;
-  var mov = false
+  var point = allMarkersOnTheMap.find((item) => item.uid === uid).spatialLocation.coordinates;
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {
-    mov = savedPoints[indexToRemove].moved
-
-    savedPoints.splice(indexToRemove, 1);
+    savedPoints[indexToRemove].data.status = "rejected";
+  } else {
+    data = { status: "rejected", coordinates: point, moved: false };
+    addToSaved(uid, data);
   }
-  savedPoints.push({
-    uid: uid,
-    status: "rejected",
-    coordinates: point,
-    moved: mov
-  });
 }
 
 async function loadJSON() {
@@ -394,13 +387,14 @@ async function loadJSON() {
           // console.log(jsonData); // Możesz przypisać jsonData do zmiennej
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
           savedPoints.forEach(async (p) => {
-            let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + p["uid"]
-            js = await getJSON(url)
+            let url =
+              "https://api.turystyka.gov.pl/registers/open/cwoh/" + p["uid"];
+            js = await getJSON(url);
             point = p["coordinates"];
             uid = p["uid"];
             status = p["status"];
             if (status === "saved") {
-              setPoint(point, uid, status, js=js);
+              setPoint(point, uid, status, (js = js));
             }
           });
         } catch (error) {
@@ -437,3 +431,14 @@ document.getElementById("saveButton").addEventListener("click", function () {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 });
+
+async function addToSaved(uid, data) {
+  let url = "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid;
+  var js = await getJSON(url);
+  p = js.content;
+
+  p.data = data;
+
+  // Dodanie obiektu p do savedPoints
+  savedPoints.push(p);
+}

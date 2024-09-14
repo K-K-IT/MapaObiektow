@@ -80,7 +80,7 @@ function setPoint(point, uid, status, js = NaN) {
   const popupContent = document.createElement("div");
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
   if (savedIndexToChange !== -1) {
-    point = savedPoints[savedIndexToChange].coordinates;
+    point = savedPoints[savedIndexToChange].data.coordinates;
   }
 
   // Dodawanie własnego atrybutu
@@ -144,11 +144,11 @@ function setPoint(point, uid, status, js = NaN) {
   marker.bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent)).addTo(map);
   // .bindPopup.addTo(map).pop.popup({ maxWidth: 500 }).setContent(popupContent)));
 
-  allMarkersOnTheMap.push({
-    uid: uid,
-    cooridnates: point,
-    status: status,
-  });
+  // allMarkersOnTheMap.push({
+  //   uid: uid,
+  //   cooridnates: point,
+  //   status: status,
+  // });
   // marker.on("click", onMarkerClick);
   // marker.on("click()", onMarkerClick);
   marker.on("dragend", dragedMaker);
@@ -191,13 +191,13 @@ async function getPoints(e) {
     var modal = new bootstrap.Modal(document.getElementById("alertModal"));
     modal.show();
   }
-  allMarkersOnTheMap = [];
+  allMarkersOnTheMap = dane["content"];
   for (let index = 0; index < dane["content"].length; index++) {
     point = dane["content"][index].spatialLocation.coordinates;
     uid = dane["content"][index].uid;
     var status = "None";
     try {
-      status = savedPoints.find((item) => item.uid === uid).status;
+      status = savedPoints.find((item) => item.uid === uid).data.status;
     } catch {}
     // popupContent.setAttribute("status", status);
 
@@ -229,17 +229,18 @@ function dragedMaker() {
   point = [this.getLatLng().lat, this.getLatLng().lng];
   uid = this.options.alt;
 
+
   var savedIndexToChange = savedPoints.findIndex((obj) => obj.uid === uid);
-  console.log(savedIndexToChange);
-  if (savedIndexToChange !== -1) {
-    savedPoints[savedIndexToChange].coordinates = point;
-    savedPoints[savedIndexToChange].moved = true;
-  } else {
-    savedPoints.push({
-      uid: this.options.alt,
-      status: "None",
-      coordinates: point,
-      moved: true,
-    });
-  }
+if (savedIndexToChange !== -1) {
+  savedPoints[savedIndexToChange].data.coordinates = point;
+  savedPoints[savedIndexToChange].data.moved = true;
+} else {
+  data = {
+    status: "None",
+    coordinates: point,
+    moved: true,
+  };
+  addToSaved(uid, data)
+}
+
 }
