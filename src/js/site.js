@@ -387,14 +387,12 @@ async function loadJSON() {
           // console.log(jsonData); // Możesz przypisać jsonData do zmiennej
           savedPoints = jsonData; // Upewnij się, że savedPoints jest zdefiniowane
           savedPoints.forEach(async (p) => {
-            let url =
-              "https://api.turystyka.gov.pl/registers/open/cwoh/" + p["uid"];
-            js = await getJSON(url);
-            point = p["coordinates"];
-            uid = p["uid"];
-            status = p["status"];
+            status = p.data.status
+            point = p.data.coordinates
+            uid = p.uid
+
             if (status === "saved") {
-              setPoint(point, uid, status, (js = js));
+              setPoint(point, uid, status, p);
             }
           });
         } catch (error) {

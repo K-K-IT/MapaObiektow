@@ -73,8 +73,13 @@ function setPoint(point, uid, status, js = NaN) {
   //--------------------------------------------------
   try {
     var details = dane["content"].find((ele) => ele.uid == uid);
+    console.log(details)
+
+    
   } catch {
-    var details = js.content;
+    var details = js;
+    console.log(details)
+
   }
 
   const popupContent = document.createElement("div");
