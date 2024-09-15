@@ -235,7 +235,7 @@ function setPoint(point, uid, status, js = NaN) {
           <div class="row">
           <div class="col">
       <button
-        class="button text-bg-light btn-lg"
+        class="btn btn-secondary btn-sm"
         data-bs-toggle="offcanvas"
         href="#offcanvasRight"
         role="button"
@@ -247,7 +247,7 @@ function setPoint(point, uid, status, js = NaN) {
       </div>
       <div class="col">
       <button
-        class="button text-bg-light btn-lg"
+        class="btn btn-success btn-sm"
         href="#"
         role="toggleDragging"
         onclick="enableDraggable('${details["uid"]}')"
@@ -270,7 +270,7 @@ function setPoint(point, uid, status, js = NaN) {
     draggable: false,
   });
   marker
-    .bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent))
+    .bindPopup(L.popup({ maxWidth: 2000 }).setContent(popupContent))
     .addTo(map);
   markers[uid] = marker
   marker.on("dragend", dragedMaker);
@@ -374,7 +374,7 @@ function dragedMaker() {
     btn.textContent = "Zablokuj"
 
     btn.setAttribute("onclick",`disableDraggable("${uid}")`)
-
+    btn.className = "btn btn-danger btn-sm"
 
   } 
   function disableDraggable(uid){
@@ -384,6 +384,7 @@ function dragedMaker() {
     btn.textContent = "Odblokuj"
 
     btn.setAttribute("onclick",`enableDraggable("${uid}")`)
+    btn.className = "btn btn-success btn-sm"
 
   } 
 

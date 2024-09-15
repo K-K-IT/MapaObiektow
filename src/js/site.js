@@ -68,6 +68,8 @@ function createQ() {
 }
 
 async function createDetails(uid) {
+
+
   detailsPanel = document.getElementById("offcanvasRight");
 
   // updateCounter()
@@ -76,7 +78,8 @@ async function createDetails(uid) {
   // var details =
   await fillDetails(uid).then((details) => (detailsPanel.innerHTML = details));
   updateCounter();
-
+  m = markers[uid]
+  m._popup.close()
   
 }
 
