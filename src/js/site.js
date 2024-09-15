@@ -308,8 +308,8 @@ function unmarkReject() {
   reject.name = "thumbs-down-outline";
   reject.setAttribute("onclick", "markReject()");
   uid = doc.getAttribute("data-uid");
-  marker = document.querySelector(`[alt="${uid}"]`);
-  marker.src = "src/icons/marker-icon-2x-blue.png";
+  m = markers[uid]
+  m.setIcon(blueIcon)
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === true)) {
     savedPoints[indexToRemove].status = "None";
@@ -327,8 +327,8 @@ function markStar() {
   reject.name = "thumbs-down-outline";
   reject.setAttribute("onclick", "markReject()");
   uid = doc.getAttribute("data-uid");
-  marker = document.querySelector(`[alt="${uid}"]`);
-  marker.src = "src/icons/marker-icon-2x-gold.png";
+  m = markers[uid]
+  m.setIcon(goldIcon)
   var point = allMarkersOnTheMap.find((item) => item.uid === uid).spatialLocation.coordinates;
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
 
@@ -344,8 +344,8 @@ function unmarkStar() {
   star.name = "star-outline";
   star.setAttribute("onclick", "markStar()");
   uid = doc.getAttribute("data-uid");
-  marker = document.querySelector(`[alt="${uid}"]`);
-  marker.src = "src/icons/marker-icon-2x-blue.png";
+  m = markers[uid]
+  m.setIcon(blueIcon)
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if ((indexToRemove !== -1) & (savedPoints[indexToRemove].moved === true)) {
     savedPoints[indexToRemove].status = "None";
@@ -363,8 +363,8 @@ function markReject() {
   reject.name = "thumbs-down";
   reject.setAttribute("onclick", "unmarkReject()");
   uid = doc.getAttribute("data-uid");
-  marker = document.querySelector(`[alt="${uid}"]`);
-  marker.src = "src/icons/marker-icon-2x-red.png";
+  m = markers[uid]
+  m.setIcon(redIcon)
   var point = allMarkersOnTheMap.find((item) => item.uid === uid).spatialLocation.coordinates;
   var indexToRemove = savedPoints.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {

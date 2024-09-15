@@ -4,7 +4,6 @@ let category;
 var allMarkersOnTheMap = []
 
 
-
 async function getJSON(url) {
   return fetch(url)
     .then((response) => {

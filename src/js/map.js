@@ -1,3 +1,5 @@
+var markers = []
+
 var dane;
 let savedPoints = []; // saved_tmp["saved"];
 
@@ -59,24 +61,28 @@ async function createMap() {
         "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
     }
   );
-  var wmsSrodowisko = L.tileLayer.wms('http://sdi.gdos.gov.pl/wms', {
-    layers: 'GDOS:ObszaryChronionegoKrajobrazu,GDOS:ObszarySpecjalnejOchrony,GDOS:ParkiKrajobrazowe,GDOS:ParkiNarodowe,GDOS:PomnikiPrzyrody,GDOS:Rezerwaty,GDOS:SpecjalneObszaryOchrony,GDOS:StanowiskaDokumentacyjne,GDOS:UzytkiEkologiczne,GDOS:ZespolyPrzyrodniczoKrajobrazowe',
-    format: 'image/png',
+  var wmsSrodowisko = L.tileLayer.wms("http://sdi.gdos.gov.pl/wms", {
+    layers:
+      "GDOS:ObszaryChronionegoKrajobrazu,GDOS:ObszarySpecjalnejOchrony,GDOS:ParkiKrajobrazowe,GDOS:ParkiNarodowe,GDOS:PomnikiPrzyrody,GDOS:Rezerwaty,GDOS:SpecjalneObszaryOchrony,GDOS:StanowiskaDokumentacyjne,GDOS:UzytkiEkologiczne,GDOS:ZespolyPrzyrodniczoKrajobrazowe",
+    format: "image/png",
     transparent: true,
-    version: '1.1.1',
-    attribution: '© GDOŚ',
-    styles: '', // Puste style, jeśli nie są wymagane
-})
+    version: "1.1.1",
+    attribution: "© GDOŚ",
+    styles: "", // Puste style, jeśli nie są wymagane
+  });
   // Dodanie warstwy WMS
-  var wmsRejestrZabytkow = L.tileLayer.wms('http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get', {
-    layers: 'Immovable_Monuments',
-    format: 'image/png',
-    transparent: true,
-    version: '1.1.1',
-    attribution: '© Zabytek',
-    styles: '', // Puste style, jeśli nie są wymagane
-})
-  
+  var wmsRejestrZabytkow = L.tileLayer.wms(
+    "http://usluga.zabytek.gov.pl/INSPIRE_IMD/service.svc/get",
+    {
+      layers: "Immovable_Monuments",
+      format: "image/png",
+      transparent: true,
+      version: "1.1.1",
+      attribution: "© Zabytek",
+      styles: "", // Puste style, jeśli nie są wymagane
+    }
+  );
+
   var WaymarkedTrails_hiking = L.tileLayer(
     "https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png",
     {
@@ -105,7 +111,7 @@ async function createMap() {
     "Szlaki piesze (WaymarkedTrails)": WaymarkedTrails_hiking,
     "Szlaki rowerowe (WaymarkedTrails)": WaymarkedTrails_cycling,
     "Rejestr zabytków": wmsRejestrZabytkow,
-    "GDOŚ": wmsSrodowisko,
+    GDOŚ: wmsSrodowisko,
   };
   map = L.map("map", { layers: [osm] }).setView(
     [54.4506593, 18.5607375125286],
@@ -225,6 +231,9 @@ function setPoint(point, uid, status, js = NaN) {
   
       </div>
       </div>
+      <br><br>
+          <div class="row">
+          <div class="col">
       <button
         class="button text-bg-light btn-lg"
         data-bs-toggle="offcanvas"
@@ -235,6 +244,17 @@ function setPoint(point, uid, status, js = NaN) {
       >
         Szczegóły
       </button>
+      </div>
+      <div class="col">
+      <button
+        class="button text-bg-light btn-lg"
+        href="#"
+        role="toggleDragging"
+        onclick="enableDraggable('${details["uid"]}')"
+      >
+        Odblokuj
+      </button>
+    </div>
     </div>
   </div>
 
@@ -247,14 +267,13 @@ function setPoint(point, uid, status, js = NaN) {
     radius: 500,
     alt: uid,
     icon: icon,
-    draggable: true,
+    draggable: false,
   });
   marker
     .bindPopup(L.popup({ maxWidth: 200 }).setContent(popupContent))
     .addTo(map);
-
+  markers[uid] = marker
   marker.on("dragend", dragedMaker);
-  
 }
 
 function showAboutModal() {
@@ -267,17 +286,20 @@ function showOptionModal() {
 }
 
 function removePoints() {
-  document
-    .querySelectorAll(".leaflet-interactive")
-    .forEach((el) => el.remove());
-  document
-    .querySelectorAll(".leaflet-shadow-pane")
-    .forEach((el) => el.remove());
+  for (var uid in markers) {
+    if (markers.hasOwnProperty(uid)) {
+        map.removeLayer(markers[uid]); // Usunięcie markera z mapy
+        delete markers[uid]; // Usunięcie markera z obiektu
+        allMarkersOnTheMap = [];
+
+    }
 }
-allMarkersOnTheMap = [];
+
+}
 
 function removePoint(uid) {
-  document.querySelector(`[alt="${uid}`).remove();
+  map.removeLayer(markers[uid])
+  delete markers[uid]; // Usunięcie markera z obiektu
   indexToRemove = allMarkersOnTheMap.findIndex((obj) => obj.uid === uid);
   if (indexToRemove !== -1) {
     allMarkersOnTheMap.splice(indexToRemove, 1);
@@ -345,4 +367,24 @@ function dragedMaker() {
     addToSaved(uid, data);
   }
 }
+  function enableDraggable(uid){
+    m = markers[uid]
+    m.dragging.enable()
+    btn = m.getPopup()._content.getElementsByTagName("button")[1]
+    btn.textContent = "Zablokuj"
 
+    btn.setAttribute("onclick",`disableDraggable("${uid}")`)
+
+
+  } 
+  function disableDraggable(uid){
+    m = markers[uid]
+    m.dragging.disable()
+    btn = m.getPopup()._content.getElementsByTagName("button")[1]
+    btn.textContent = "Odblokuj"
+
+    btn.setAttribute("onclick",`enableDraggable("${uid}")`)
+
+  } 
+
+  
