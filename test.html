@@ -1,170 +1,3200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <title>Leaflet Examples</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.2/awesomplete.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>Wyszukiwarka</title>
+    <style>
 
-    <!-- Bootstrap core CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-      crossorigin=""
-    />
+    </style>
   </head>
   <body>
-    <header>
-      <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-          <a href="#" class="navbar-brand d-flex align-items-center">
+    <div class="container mt-5">
+      <h1 class="text-center">Wyszukiwarka</h1>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <button
+            type="button"
+            id="toggleButton"
+            class="btn btn-secondary p-2 rounded-circle"
+            style="  width: 40px;              height: 40px;              text-align: center;              padding: 0; changed ;             font-size: 12px;              line-height: 1.428571429;              border-radius: 15px;"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              aria-hidden="true"
-              class="me-2"
-              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-search"
+              viewBox="0 0 16 16"
             >
               <path
-                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
               />
-              <circle cx="12" cy="13" r="4" />
             </svg>
-            <strong>Leaflet Examples</strong>
-          </a>
+          </button>
+        </div>
+        <div class="input-group-append" >
+        <input
+          id="search"
+          style="display: none;"
+          class="form-control awesomplete"
+          placeholder="Zacznij pisać..."
+          aria-label="Zacznij pisać..."
+          size="100%"
+        />
+       
+          <span class="input-group-text" id="clearButton" style="display: none">
+            <span>&times;</span>
+            <!-- Ikona X do czyszczenia -->
+          </span>
         </div>
       </div>
-    </header>
-
-    <main>
-      <section class="py-5 container">
-        <h1 class="fw-light">Add Image Overlay</h1>
-        <div class="row py-lg-5">
-          <style>
-            #map {
-              height: 380px;
-            }
-          </style>
-          <div id="map"></div>
-        </div>
-
-        <div class="row py-lg-5">
-          <div class="col-lg-6 col-md-8">
-            <h3>Try It Out</h3>
-            <p>
-              Zoom in to the marker and notice the opacity of the overlay image
-            </p>
-            <h3>Code</h3>
-            <pre>
-          var lyrFloor1;
-          lyrFloor1 = L.imageOverlay('images/floorplan.png', 
-              [
-              [54.1772967493766, -6.337912380695343], 
-              [54.17763269390858, -6.337487250566482]
-              ]).addTo(map);
-          lyrFloor1.setOpacity(0.9);
-        </pre
-            >
-
-            <p class="lead">
-              View the source of this page to see fully how the map is created.
-              In this example notice:
-            </p>
-            <ul>
-              <li>Layer for the floor plan</li>
-              <li>imageOverlay used to specify a raster image as the source</li>
-              <li>
-                imageOverlay accepts co-ordinates to position the image.
-                Bottom-left coordinates and top-right coordinates
-              </li>
-              <li>Transparency of the layer is set to 10% (0.9)</li>
-            </ul>
-            <p>
-              <a href="map-geojson.html" class="btn btn-primary my-2"
-                >Next Example</a
-              >
-              <a href="map-satellite.html" class="btn btn-default">Previous</a>
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="text-muted py-5">
-      <div class="container">
-        <p class="float-end mb-1">
-          <a href="#">Back to top</a>
-        </p>
-        <p class="mb-1"></p>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1/dist/js/bootstrap.min.js"></script>
-
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.2/awesomplete.min.js"></script>
     <script>
-      var mapbox_url =
-        "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw";
-      var mapbox_attribution = "© Mapbox © OpenStreetMap Contributors";
-      var esri_url =
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-      var esri_attribution = "© Esri © OpenStreetMap Contributors";
-
-      var lyr_satellite = L.tileLayer(esri_url, {
-        id: "MapID",
-        maxZoom: 20,
-        tileSize: 512,
-        zoomOffset: -1,
-        attribution: esri_attribution,
-      });
-      var lyr_streets = L.tileLayer(mapbox_url, {
-        id: "mapbox/streets-v11",
-        maxZoom: 28,
-        tileSize: 512,
-        zoomOffset: -1,
-        attribution: mapbox_attribution,
-      });
-      var marker = L.marker([54.17747885048963, -6.337641477584839], {
-        draggable: "false",
-      }).bindPopup("<b>Town Hall with Floor Plan</b>");
-      var lg_markers = L.layerGroup([marker]);
-
-      var map = L.map("map", {
-        center: [54.17747885048963, -6.337641477584839],
-        zoom: 18,
-        layers: [lyr_satellite, lyr_streets, lg_markers],
+      const toggleButton = document.getElementById("toggleButton");
+      const searchInput = document.getElementById("search");
+      const clearButton = document.getElementById("clearButton");
+      // Nasłuchiwanie na kliknięcie przycisku toggle
+      toggleButton.addEventListener("click", () => {
+        if (searchInput.style.display === "none") {
+          searchInput.style.display = "block"; // Rozwiń pole input
+          searchInput.focus(); // Skupienie na polu input
+        } else {
+          searchInput.style.display = "none"; // Zwiń pole input
+          clearButton.style.display = "none"; // Ukryj przycisk czyszczenia
+        }
       });
 
-      var baseMaps = {
-        Streets: lyr_streets,
-        Satellite: lyr_satellite,
-      };
-      var overlayMaps = {
-        Markers: lg_markers,
-      };
+      // Nasłuchiwanie na zmiany w polu input
+      searchInput.addEventListener("input", () => {
+        clearButton.style.display = searchInput.value ? "block" : "none"; // Pokaż lub ukryj przycisk czyszczenia
+      });
 
-      L.control.layers(baseMaps, overlayMaps).addTo(map);
+      // Nasłuchiwanie na kliknięcie przycisku czyszczenia
+      clearButton.addEventListener("click", () => {
+        searchInput.value = ""; // Wyczyść pole input
+        clearButton.style.display = "none"; // Ukryj przycisk czyszczenia
+      });
 
-      var lyrFloor1;
-      lyrFloor1 = L.imageOverlay("images/floorplan.png", [
-        [54.1772967493766, -6.337912380695343],
-        [54.17763269390858, -6.337487250566482],
-      ]).addTo(map);
-      lyrFloor1.setOpacity(0.9);
+      const data = [
+        {
+          rid: "CWOH/0264011/2021/05/78",
+          uid: "f3b4c5ab-8a2c-4efd-8b5b-88c1db3bd96f",
+          name: "Radisson Blu",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "50-156",
+          street: "Purkyniego  10",
+          bedsNumber: 162,
+          housingUnitsNumber: 309,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.1106745, 17.0439092],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/135",
+          uid: "1351e20b-3e96-4ad6-8fa2-53fa16707023",
+          name: "PLATINUM PALACE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "53-140",
+          street: "POWSTAŃCÓW ŚLĄSKICH 204",
+          bedsNumber: 22,
+          housingUnitsNumber: 22,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.0777062, 17.0080864],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/216",
+          uid: "abec9de1-c360-4c9a-a414-7b1fc851c268",
+          name: "GRAPE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "51-616",
+          street: "PARKOWA  8",
+          bedsNumber: 13,
+          housingUnitsNumber: 23,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.1099963, 17.0731867],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0208051/2021/05/249",
+          uid: "7bb7c3d2-065a-4b53-96d3-9b510021294a",
+          name: "HOTEL SPA DR IRENA ERIS POLANICA ZDRÓJ",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "kłodzki",
+          community: "Polanica-Zdrój",
+          city: "Polanica-Zdrój",
+          postalCode: "57-320",
+          street: "DĘBOWA  19b",
+          bedsNumber: 85,
+          housingUnitsNumber: 170,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.411493, 16.5027505278696],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0206031/2021/05/276",
+          uid: "04a19b78-abd3-47be-a49d-8e2726f1edf8",
+          name: "PAŁAC PAKOSZÓW",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "karkonoski",
+          community: "Piechowice",
+          city: "Piechowice",
+          postalCode: "58-573",
+          street: "Zamkowa  3",
+          bedsNumber: 18,
+          housingUnitsNumber: 36,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.85663145, 15.6270334435038],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/309",
+          uid: "4c3f770d-9a47-4e6a-90e6-8c0b8b2a87ed",
+          name: "HOTEL DOUBLE TREE BY HILTON",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "50-414",
+          street: "Podwale  84",
+          bedsNumber: 189,
+          housingUnitsNumber: 258,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.1083087, 17.0434234],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/320",
+          uid: "f74208cf-0555-4a1f-9f64-dc97b7ec0cc5",
+          name: "THE GRANARY LA SUITE HOTEL WROCŁAW CITY CENTER",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "50-057",
+          street: "MENNICZA  24",
+          bedsNumber: 47,
+          housingUnitsNumber: 94,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.1062477, 17.0348097],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/350",
+          uid: "8fccb6d6-2627-4a16-b10d-740a0965a081",
+          name: "MONOPOL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "50-071",
+          street: "MODRZEJEWSKIEJ  2",
+          bedsNumber: 121,
+          housingUnitsNumber: 242,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.106234, 17.030561],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0206011/2021/05/365",
+          uid: "c50cd2ba-c8f1-4fdd-86de-9160a63f6c12",
+          name: "GREEN MOUNTAIN HOTEL & APARTMENTS",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "karkonoski",
+          community: "Karpacz",
+          city: "Karpacz",
+          postalCode: "58-540",
+          street: "Sarnia 21",
+          bedsNumber: 274,
+          housingUnitsNumber: 137,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.7644532, 15.7663559],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2021/05/387",
+          uid: "4256f774-c728-4887-b5c2-267f41406155",
+          name: "THE BRIDGE WROCŁAW MGALLERY HOTEL COLLECTION",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław",
+          city: "Wrocław",
+          postalCode: "50-329",
+          street: "pl. Katedralny  8",
+          bedsNumber: 184,
+          housingUnitsNumber: 368,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.1137601, 17.0481355060818],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0461011/2021/05/487",
+          uid: "9825e175-3471-408d-85f9-00296cf909a9",
+          name: "BOHEMA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Kujawsko-pomorskie",
+          district: "Bydgoszcz",
+          community: "Bydgoszcz",
+          city: "Bydgoszcz",
+          postalCode: "85-066",
+          street: "Stanisława Konarskiego  9",
+          bedsNumber: 33,
+          housingUnitsNumber: 20,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.1258019, 18.0066979998189],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0663011/2021/05/634",
+          uid: "925d9533-2ceb-49f5-9217-d4eeabf42166",
+          name: "ALTER",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Lubelskie",
+          district: "Lublin",
+          community: "Lublin",
+          city: "Lublin",
+          postalCode: "20-112",
+          street: "Grodzka  30",
+          bedsNumber: 26,
+          housingUnitsNumber: 13,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.2494889, 22.5692133555901],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1061011/2021/05/943",
+          uid: "3dba58f5-eef5-493d-98fd-b680a482e988",
+          name: "GRAND",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Łódzkie",
+          district: "Łódź",
+          community: "Łódź",
+          city: "Łódź",
+          postalCode: "90-102",
+          street: "Piotrkowska  72",
+          bedsNumber: 208,
+          housingUnitsNumber: 104,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.768544, 19.4569322444532],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/979",
+          uid: "117b9c1c-f2f8-42e6-bc37-098f92172817",
+          name: "BOOKING HOTEL CROWN PIAST & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-342",
+          street: "Radzikowskiego  109",
+          bedsNumber: 230,
+          housingUnitsNumber: 175,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0857082, 19.8880521471882],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1000",
+          uid: "b094c9d7-ede0-433e-b103-077c25e1993f",
+          name: "GRÓDEK",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-028",
+          street: "Na Gródku  4",
+          bedsNumber: 42,
+          housingUnitsNumber: 22,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0609763, 19.9423176099078],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1090",
+          uid: "818f9b4c-3f7b-4d27-be8b-774f61dd7f7b",
+          name: "GRAND",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-014",
+          street: "Sławkowska  5/7",
+          bedsNumber: 104,
+          housingUnitsNumber: 56,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0639491, 19.937767],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1102",
+          uid: "66b884ff-e7c9-4499-9ef8-5382e4df2b02",
+          name: "COPERNICUS",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-002",
+          street: "Kanonicza  16",
+          bedsNumber: 54,
+          housingUnitsNumber: 29,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0562705, 19.9375835],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1147",
+          uid: "692b0984-4723-420a-8258-29b25bb890c1",
+          name: "DWÓR KOŚCIUSZKO",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-221",
+          street: "Papiernicza  3",
+          bedsNumber: 39,
+          housingUnitsNumber: 21,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0917806, 19.9406002],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1171",
+          uid: "d9ffba9e-f7ba-4503-9470-9e46a5486ef3",
+          name: "STARY",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-011",
+          street: "Szczepańska  5",
+          bedsNumber: 156,
+          housingUnitsNumber: 78,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0631806, 19.9365572],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1227",
+          uid: "b3a6d409-e8bd-4b99-b58f-ab4fd5018ff5",
+          name: "POD RÓŻĄ",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-021",
+          street: "Floriańska 14",
+          bedsNumber: 101,
+          housingUnitsNumber: 57,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0630042, 19.9397311],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1217011/2021/05/1245",
+          uid: "93518016-37ba-4ac1-8618-fea7922592f0",
+          name: "RYSY BOUTIQUE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tatrzański",
+          community: "Zakopane",
+          city: "Zakopane",
+          postalCode: "34-500",
+          street: "Goszczyńskiego  7",
+          bedsNumber: 46,
+          housingUnitsNumber: 23,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.28985365, 19.9611779019781],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1277",
+          uid: "4fe28f74-ac32-4df0-aa72-7afa0c7224cb",
+          name: "SHERATON GRAND KRAKÓW",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-101",
+          street: "Powiśle  7",
+          bedsNumber: 464,
+          housingUnitsNumber: 232,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.05604395, 19.9307997379821],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1282",
+          uid: "793ff34d-b4b0-42cd-b3fb-25810563667d",
+          name: "HOLIDAY INN KRAKÓW CITY CENTER",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-072",
+          street: "Wielopole  4-8.",
+          bedsNumber: 472,
+          housingUnitsNumber: 236,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0582793, 19.945087],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1286",
+          uid: "c35c100a-0067-49af-afaa-eca50299325f",
+          name: "WYNDHAM GRAND KRAKOW OLD TOWN",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-021",
+          street: "Floriańska  28",
+          bedsNumber: 116,
+          housingUnitsNumber: 60,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0639006, 19.9405212],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1308",
+          uid: "c8fc9542-c7b3-45ac-b488-f546b9b2d533",
+          name: "H15 HOTEL FRANCUSKI",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-015",
+          street: " Pijarska  13",
+          bedsNumber: 66,
+          housingUnitsNumber: 35,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.06478677201964, 19.939455986022953],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1331",
+          uid: "0d83a4c5-b65f-4881-a0ce-baf19fca26f0",
+          name: "RADISSON BLU",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-101",
+          street: "Straszewskiego  17",
+          bedsNumber: 392,
+          housingUnitsNumber: 196,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0588125, 19.9333281],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1386",
+          uid: "e281170e-82e7-4cf8-bfe0-9a356c79952f",
+          name: "THE BONEROWSKI PALACE BOUTIQUE HOTEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-013",
+          street: "Św. Jana  1",
+          bedsNumber: 30,
+          housingUnitsNumber: 15,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.06257, 19.93832],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1216092/2021/05/1399",
+          uid: "8224c125-2e5e-4284-b0c4-271e786cb550",
+          name: "DWÓR PREZYDENCKI",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tarnowski",
+          community: "Tarnów",
+          city: "Zgłobice",
+          postalCode: "33-113",
+          street: "Dworska  1",
+          bedsNumber: 20,
+          housingUnitsNumber: 11,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.97469925, 20.9024540507464],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1418",
+          uid: "3fc7d99c-24c2-447e-8c2a-02cfb66f0bf5",
+          name: "BALTHAZAR DESIGN HOTEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-001",
+          street: "Grodzka  63",
+          bedsNumber: 35,
+          housingUnitsNumber: 22,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0559191, 19.9381498],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1424",
+          uid: "f1ca1cfd-7b35-4bc4-82bb-2f3ed7fa7ba1",
+          name: "NIEBIESKI ART HOTEL & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "30-114",
+          street: "Flisacka  3",
+          bedsNumber: 80,
+          housingUnitsNumber: 40,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0522222, 19.9171666],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1435",
+          uid: "8fdf4d17-ed9b-4281-b3fd-41ba95d1a021",
+          name: "BACHLEDA LUXURY HOTEL KRAKÓW MGALLERY BY SOFITEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-106",
+          street: "Plac Kossaka  6",
+          bedsNumber: 123,
+          housingUnitsNumber: 64,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0563759, 19.928139],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1211024/2021/05/1439",
+          uid: "4c790633-a154-45f8-8abd-940487cc7e08",
+          name: "MODRZEWIE PARK HOTEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "nowotarski",
+          community: "Szczawnica",
+          city: "Szczawnica",
+          postalCode: "34-460",
+          street: "Park Górny  2",
+          bedsNumber: 34,
+          housingUnitsNumber: 17,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.4291984, 20.489286],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/05/1461",
+          uid: "92479c67-347d-42ca-99b8-2c401773dfc4",
+          name: "POLSKI POD BIAŁYM ORŁEM",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków",
+          city: "Kraków",
+          postalCode: "31-015",
+          street: "Pijarska 17",
+          bedsNumber: 84,
+          housingUnitsNumber: 44,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0647317, 19.940578099197],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1217011/2021/05/1462",
+          uid: "357818eb-325c-4d2c-a91c-2acdf298944f",
+          name: "ARIES HOTEL & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tatrzański",
+          community: "Zakopane",
+          city: "Zakopane",
+          postalCode: "34-500",
+          street: "Zaruskiego  5",
+          bedsNumber: 192,
+          housingUnitsNumber: 98,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.29430135, 19.9500132779521],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1217011/2021/05/1464",
+          uid: "c25b7cff-11fd-4fae-96b4-f940ee3fbc75",
+          name: "RADISSON BLU HOTEL & RESIDENCES ZAKOPANE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tatrzański",
+          community: "Zakopane",
+          city: "Zakopane",
+          postalCode: "34-500",
+          street: "Bulwary Słowackiego  1",
+          bedsNumber: 316,
+          housingUnitsNumber: 158,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.29275008409816, 19.96626198291779],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1211024/2021/05/1479",
+          uid: "af1cbf34-e59f-4504-b483-0ff0efe6eadb",
+          name: "HOTEL SZCZAWNICA PARK RESORT & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "nowotarski",
+          community: "Szczawnica",
+          city: "Szczawnica",
+          postalCode: "34-460",
+          street: "Główna  25A",
+          bedsNumber: 218,
+          housingUnitsNumber: 110,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.4265314, 20.4769863],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1210032/2021/05/1494",
+          uid: "ba5ca0ab-208a-46f9-8a0a-9e39a22fe606",
+          name: "HERON",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "nowosądecki",
+          community: "Gródek nad Dunajcem",
+          city: "Gródek nad Dunajcem",
+          postalCode: "33-318",
+          street: "Sienna  104",
+          bedsNumber: 155,
+          housingUnitsNumber: 82,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.72054902439696, 20.698746442794803],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1217011/2021/05/1539",
+          uid: "3f583d73-1028-4795-a5cc-a8376bde0b0e",
+          name: "NOSALOWY PARK HOTEL & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tatrzański",
+          community: "Zakopane",
+          city: "Zakopane",
+          postalCode: "34-500",
+          street: "Kościuszki 18",
+          bedsNumber: 278,
+          housingUnitsNumber: 139,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.2983366, 19.9593277601347],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1217011/2021/05/1540",
+          uid: "7f9775ba-9333-44cd-b09d-ba869739177a",
+          name: "BACHLEDA RESIDENCE ZAKOPANE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "tatrzański",
+          community: "Zakopane",
+          city: "Zakopane",
+          postalCode: "34-500",
+          street: "Tetmajera 16",
+          bedsNumber: 256,
+          housingUnitsNumber: 128,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.2897974, 19.9575007834803],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1610",
+          uid: "cb8df264-1a6f-4b86-8a6a-6dc593062f62",
+          name: "H15 Boutique Hotel",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-680",
+          street: "Poznańska 15",
+          bedsNumber: 24,
+          housingUnitsNumber: 12,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.22509455, 21.0114743781148],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1627",
+          uid: "800120b6-c41d-4a9b-a747-10d8ea239e92",
+          name: "Hotel Bellotto",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-075",
+          street: "Senatorska 13/15",
+          bedsNumber: 39,
+          housingUnitsNumber: 20,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2454593, 21.0125605690212],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1629",
+          uid: "24b01d09-8aeb-4a24-9f51-4aa64b60f33d",
+          name: "Hotel Bristol Warsaw The Luxury Collection",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-325",
+          street: "Krakowskie Przedmieście 42/44",
+          bedsNumber: 412,
+          housingUnitsNumber: 206,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.24240335, 21.0157224860313],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1661",
+          uid: "b08e45f3-c3ee-45d5-80b7-f2927d2a789d",
+          name: "Hotel Intercontinental Warszawa",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-125",
+          street: "Emilii Plater  49",
+          bedsNumber: 823,
+          housingUnitsNumber: 414,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2323588, 21.0024947048992],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1694",
+          uid: "b8b69d0c-50f2-4ffe-8769-57044565d502",
+          name: "Hotel Warszawa",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-039",
+          street: "pl. Powstańców Warszawy 9",
+          bedsNumber: 284,
+          housingUnitsNumber: 142,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.23565635, 21.0123096334693],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1726",
+          uid: "99dc5dfd-508f-43f7-a91b-ade7f230bfc4",
+          name: "Mamaison Le Regina Hotel",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "01-218",
+          street: "Kościelna 12",
+          bedsNumber: 122,
+          housingUnitsNumber: 61,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2538987, 21.0072649373944],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1430012/2021/05/1727",
+          uid: "41054d22-e644-44c5-8bb3-c8000a066b49",
+          name: "Manor House Pałac Odrowążów",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Szydłowiecki",
+          community: "Chlewiska",
+          city: "Chlewiska",
+          postalCode: "26-510",
+          street: "Czachowskiego 56",
+          bedsNumber: 35,
+          housingUnitsNumber: 18,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.247145, 20.7581648444819],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1734",
+          uid: "2930fee1-98a9-40f2-85c9-97068619424d",
+          name: "Marriott",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-697",
+          street: "Al. Jerozolimskie 65/79",
+          bedsNumber: 763,
+          housingUnitsNumber: 521,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2276705, 21.00485407888],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1785",
+          uid: "ff85c977-b094-45d2-84f9-700692062bee",
+          name: "Radisson Collection Hotel Warsaw ",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-132",
+          street: "Grzybowska 24",
+          bedsNumber: 618,
+          housingUnitsNumber: 309,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2365423, 20.9986314],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1786",
+          uid: "7b59848c-86e1-4971-8d81-f7217dea9fd9",
+          name: "Raffles Europejski Warsaw",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-071",
+          street: "Krakowskie Przedmieście 13",
+          bedsNumber: 212,
+          housingUnitsNumber: 106,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.24193085, 21.0150874806616],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1788",
+          uid: "72cf9580-4b85-4a7a-b61f-e1c52ce4bd28",
+          name: "Regent Warsaw Hotel ",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-761",
+          street: "Belwederska 23",
+          bedsNumber: 255,
+          housingUnitsNumber: 200,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2074969, 21.0290240582158],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1790",
+          uid: "e6bf3728-74a4-4397-9b81-86fdbc0f87a3",
+          name: "Renaissance Warsaw Airport Hotel",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-906",
+          street: "Żwirki i Wigury 1H",
+          bedsNumber: 450,
+          housingUnitsNumber: 225,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.1721965, 20.9759795],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1799",
+          uid: "2eb938a0-b343-40e9-91bc-d85eedc49fd9",
+          name: "Sheraton Warsaw Hotel & Towers",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-493",
+          street: "Prusa 2",
+          bedsNumber: 700,
+          housingUnitsNumber: 350,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.2280396, 21.024811385514],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2021/05/1801",
+          uid: "d0dafa15-236e-4238-975d-2b1d3044b133",
+          name: "Sofitel Victoria",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa ",
+          community: "Warszawa",
+          city: "Warszawa",
+          postalCode: "00-065",
+          street: "Królewska 11",
+          bedsNumber: 736,
+          housingUnitsNumber: 368,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.23970665, 21.0134214070223],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1601035/2021/05/1869",
+          uid: "bec49c61-821c-4eca-8bf1-2427e8ebbfc7",
+          name: "PAŁAC SULISŁAW HOTEL & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Opolskie",
+          district: "brzeski",
+          community: "Grodków",
+          city: "Sulisław",
+          postalCode: "49-200",
+          street: "Sulisław 24",
+          bedsNumber: 23,
+          housingUnitsNumber: 14,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.69285345, 17.3058636395911],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1863011/2021/05/2053",
+          uid: "bf3f0b7c-142c-4de2-831a-42a0fed8b71f",
+          name: "BRISTOL TRADITION & LUXURY",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Podkarpackie",
+          district: "Rzeszów",
+          community: "Rzeszów",
+          city: "Rzeszów",
+          postalCode: "35-064",
+          street: "Rynek 20-23",
+          bedsNumber: 84,
+          housingUnitsNumber: 43,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0378771, 22.0048400520198],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2061011/2021/05/2144",
+          uid: "a868a43e-adb0-4a11-9c93-8923ffe09e83",
+          name: "ROYAL & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Podlaskie",
+          district: "Białystok",
+          community: "Białystok",
+          city: "Białystok",
+          postalCode: "15-001",
+          street: "Rynek Kościuszki 11",
+          bedsNumber: 75,
+          housingUnitsNumber: 42,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.1319, 23.1589085021682],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2212011/2021/05/2229",
+          uid: "8ce2eff2-736a-4d40-816d-a9c5e0a2751d",
+          name: "GRAND LUBICZ-UZDROWISKO USTKA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "słupski",
+          community: "Ustka",
+          city: "Ustka",
+          postalCode: "76-270",
+          street: "Wczasowa 4",
+          bedsNumber: 554,
+          housingUnitsNumber: 311,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.58437665, 16.8694442339486],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2264011/2021/05/2236",
+          uid: "b71ca6d0-20ab-4a16-92f5-6946b1eba94b",
+          name: "HAFFNER",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Sopot",
+          community: "Sopot",
+          city: "Sopot",
+          postalCode: "81-715",
+          street: "Jana Jerzego Haffnera  59",
+          bedsNumber: 192,
+          housingUnitsNumber: 97,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.4506593, 18.5607375125286],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2261011/2021/05/2244",
+          uid: "26c8df64-53cf-45d6-8d27-6320d5cd44ab",
+          name: "HILTON",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Gdańsk",
+          community: "Gdańsk",
+          city: "Gdańsk",
+          postalCode: "80-838",
+          street: "Targ Rybny  1",
+          bedsNumber: 251,
+          housingUnitsNumber: 150,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.3537023, 18.6583370267207],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2215042/2021/05/2325",
+          uid: "f066285c-2228-4b74-8233-5c71e0d6145f",
+          name: "PAŁAC CIEKOCINKO",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "wejherowski",
+          community: "Choczewo",
+          city: "Ciekocinko",
+          postalCode: "84-210",
+          street: "Ciekocinko 9",
+          bedsNumber: 54,
+          housingUnitsNumber: 28,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.7456706, 17.7965968861732],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2261011/2021/05/2337",
+          uid: "570768e9-3999-43eb-90bd-c65d4dbd9077",
+          name: "PODEWILS",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Gdańsk",
+          community: "Gdańsk",
+          city: "Gdańsk",
+          postalCode: "80-755",
+          street: "Szafarnia  2-3",
+          bedsNumber: 19,
+          housingUnitsNumber: 10,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.35047265, 18.66022085],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2262011/2021/05/2347",
+          uid: "11ce2740-b4f7-43c1-be8c-ec415afc429d",
+          name: "QUADRILLE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Gdynia",
+          community: "Gdynia",
+          city: "Gdynia",
+          postalCode: "81-547",
+          street: "Folwarczna  2",
+          bedsNumber: 59,
+          housingUnitsNumber: 31,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.48117, 18.54003],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2261011/2021/05/2350",
+          uid: "cc3be7b8-5310-401d-b982-7b0908b96cd6",
+          name: "RADISSON BLU HOTEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Gdańsk",
+          community: "Gdańsk",
+          city: "Gdańsk",
+          postalCode: "80-828",
+          street: "Długi Targ  / Powroźnicza 19",
+          bedsNumber: 254,
+          housingUnitsNumber: 134,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.34792, 18.65461],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2264011/2021/05/2356",
+          uid: "5f0df341-7772-49aa-8b14-1880b9ec9404",
+          name: "REZYDENT SOPOT MGALLERY HOTEL COLLECTION",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Sopot",
+          community: "Sopot",
+          city: "Sopot",
+          postalCode: "81-704",
+          street: "Plac Konstytucji III Maja  3",
+          bedsNumber: 112,
+          housingUnitsNumber: 63,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.4426601, 18.5628670269646],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2264011/2021/05/2366",
+          uid: "a65c57be-e88a-442b-a362-6c1000b8b27e",
+          name: "SHERATON Sopot Hotel Conference Center & Spa",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Sopot",
+          community: "Sopot",
+          city: "Sopot",
+          postalCode: "81-718",
+          street: "Powstańców Warszawy  10",
+          bedsNumber: 378,
+          housingUnitsNumber: 189,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.448244, 18.5662524],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2264011/2021/05/2370",
+          uid: "f50a459f-3318-41ac-b3ce-2fc0c823268b",
+          name: "SOFITEL GRAND SOPOT",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Sopot",
+          community: "Sopot",
+          city: "Sopot",
+          postalCode: "81-718",
+          street: "Powstańców Warszawy  12/14",
+          bedsNumber: 208,
+          housingUnitsNumber: 126,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.4474432, 18.5684124172939],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2264011/2021/05/2395",
+          uid: "5fa59ffe-c1bd-445e-9612-db716f77dd3a",
+          name: "TESTA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Pomorskie",
+          district: "Sopot",
+          community: "Sopot",
+          city: "Sopot",
+          postalCode: "81-772",
+          street: "Kilińskiego 11a",
+          bedsNumber: 34,
+          housingUnitsNumber: 18,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.4386931, 18.5750839],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2403021/2021/05/2425",
+          uid: "57ca3021-a2f3-4663-9ec5-e4163a72f06f",
+          name: "BELWEDER",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Śląskie",
+          district: "cieszyński",
+          community: "Ustroń",
+          city: "Ustroń",
+          postalCode: "43-450",
+          street: "Zdrojowa  15",
+          bedsNumber: 190,
+          housingUnitsNumber: 97,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.7193135, 18.8320792],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2469011/2021/05/2460",
+          uid: "767f171b-8754-4e96-b5a1-05fa0862346b",
+          name: "MONOPOL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Śląskie",
+          district: "Katowice",
+          community: "Katowice",
+          city: "Katowice",
+          postalCode: "40-012",
+          street: "Dworcowa  5",
+          bedsNumber: 204,
+          housingUnitsNumber: 108,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.25790845, 19.022602702738],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2604092/2021/05/2700",
+          uid: "5f109149-4b0b-41dd-9ced-41e1fcde3a72",
+          name: "ODYSSEY CLUBHOTEL WELLNESS & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Świętokrzyskie",
+          district: "kielecki",
+          community: "Masłów",
+          city: "Dąbrowa",
+          postalCode: "26-001",
+          street: "Dąbrowa 3",
+          bedsNumber: 84,
+          housingUnitsNumber: 42,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.91052975, 20.6852584387931],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2815011/2021/05/2895",
+          uid: "c429eceb-227e-44e1-869b-7bcc30d043aa",
+          name: "Hotel Willa Port",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-mazurskie",
+          district: "ostródzki",
+          community: "Ostróda",
+          city: "Ostróda",
+          postalCode: "14-100",
+          street: "Mickiewicza  17",
+          bedsNumber: 172,
+          housingUnitsNumber: 86,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.7009586, 19.9601473],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2807011/2021/05/2909",
+          uid: "2dd18bdb-f929-4a61-a8d9-895306bf44d7",
+          name: "GRANDHOTEL TIFFI",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-mazurskie",
+          district: "iławski",
+          community: "Iława",
+          city: "Iława",
+          postalCode: "14-200",
+          street: "Dąbrowskiego   9",
+          bedsNumber: 310,
+          housingUnitsNumber: 155,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.60118, 19.56228],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2815092/2021/05/2913",
+          uid: "e45cbef0-db51-4088-803b-0cd18aae5c48",
+          name: "HOTEL SPA DR IRENA ERIS WZGÓRZA DYLEWSKIE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-mazurskie",
+          district: "ostródzki",
+          community: "Ostróda",
+          city: "Wysoka Wieś",
+          postalCode: "14-100",
+          street: " 22",
+          bedsNumber: 182,
+          housingUnitsNumber: 88,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.726447, 19.6302929],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2810024/2021/05/2932",
+          uid: "35cf0285-d452-44b2-bc44-3acce9cce905",
+          name: "HOTEL MIKOŁAJKI",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-mazurskie",
+          district: "mrągowski",
+          community: "Mikołajki",
+          city: "Mikołajki",
+          postalCode: "11-730",
+          street: "Al. Spacerowa   11",
+          bedsNumber: 208,
+          housingUnitsNumber: 101,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.797744, 21.5690052607057],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2814052/2021/05/2937",
+          uid: "a54dae6b-b4e1-4388-80ed-039b11d4ebf4",
+          name: "HOTEL MARINA CLUB",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-mazurskie",
+          district: "olsztyński",
+          community: "Gietrzwałd",
+          city: "Siła",
+          postalCode: "11-036",
+          street: " 100",
+          bedsNumber: 190,
+          housingUnitsNumber: 98,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.7098006, 20.3776474],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3064011/2021/05/3067",
+          uid: "365a9bb1-7734-4bfd-ba1c-ffd836e16e0c",
+          name: "Sheraton Poznan Hotel",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Wielkopolskie",
+          district: "Poznań",
+          community: "Poznań",
+          city: "Poznań",
+          postalCode: "60-813",
+          street: "Bukowska 3/9",
+          bedsNumber: 246,
+          housingUnitsNumber: 181,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.40685305, 16.9108312183473],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3064011/2021/05/3140",
+          uid: "73fabdb8-c664-45c7-9340-fedd8e522f16",
+          name: "CITY PARK HOTEL & RESIDENCE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Wielkopolskie",
+          district: "Poznań",
+          community: "Poznań",
+          city: "Poznań",
+          postalCode: "61-751",
+          street: "Wyspiańskiego 26a",
+          bedsNumber: 70,
+          housingUnitsNumber: 35,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.4005762, 16.8932362],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3208011/2021/05/3294",
+          uid: "f110f91e-25e9-4bf9-bb80-0f58e7a566a2",
+          name: "MARINE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "kołobrzeski",
+          community: "Kołobrzeg",
+          city: "Kołobrzeg",
+          postalCode: "78-100",
+          street: "Sułkowskiego  9",
+          bedsNumber: 429,
+          housingUnitsNumber: 231,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.18910165, 15.6042823774637],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3208011/2021/05/3296",
+          uid: "5959ebbd-1cd8-4804-844e-d63a721b2071",
+          name: "ROYAL TULIP SAND",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "kołobrzeski",
+          community: "Kołobrzeg",
+          city: "Kołobrzeg",
+          postalCode: "78-100",
+          street: "Zdrojowa  3",
+          bedsNumber: 296,
+          housingUnitsNumber: 148,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.183508, 15.5684108328696],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3263011/2021/05/3381",
+          uid: "7225b55c-da8c-48c2-a19e-bdca7b6f5828",
+          name: "RADISSON BLU RESORT",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "Świnoujście",
+          community: "Świnoujście",
+          city: "Świnoujście",
+          postalCode: "72-600",
+          street: "Baltic Park Molo 2",
+          bedsNumber: 681,
+          housingUnitsNumber: 340,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.91935815, 14.259968977823],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3208011/2021/05/3393",
+          uid: "f1a6b7a9-8c23-4624-857b-aa7b7dd525be",
+          name: "DIUNE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "kołobrzeski",
+          community: "Kołobrzeg",
+          city: "Kołobrzeg",
+          postalCode: "78-100",
+          street: "Sułkowskiego  4c",
+          bedsNumber: 120,
+          housingUnitsNumber: 64,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.18834265, 15.5990251730569],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3208011/2021/05/3409",
+          uid: "2584393d-130e-4215-8d1f-f046e08bc626",
+          name: "AQUARIUS  SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "kołobrzeski",
+          community: "Kołobrzeg",
+          city: "Kołobrzeg",
+          postalCode: "78-100",
+          street: "Kasprowicza  24",
+          bedsNumber: 410,
+          housingUnitsNumber: 205,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.1832196, 15.5908437677251],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3208042/2021/05/3410",
+          uid: "046625d3-f4df-42c3-91a3-195240e21635",
+          name: "HAVET HOTEL RESORT & SPA DŹWIRZYNO",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "kołobrzeski",
+          community: "Kołobrzeg",
+          city: "Dźwirzyno",
+          postalCode: "78-131",
+          street: "Wyzwolenia  29",
+          bedsNumber: 268,
+          housingUnitsNumber: 132,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.1620453, 15.4224880847412],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3263012/2021/05/3438",
+          uid: "d7a242e0-cc67-49a7-901f-a83d3033827c",
+          name: "Hilton Swinoujscie Resort & Spa",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "Świnoujście",
+          community: "Świnoujście",
+          city: "Świnoujście",
+          postalCode: "72-601",
+          street: "Baltic Park Molo 4",
+          bedsNumber: 368,
+          housingUnitsNumber: 173,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.9202321, 14.2599079],
+          },
+          tags: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+            },
+          ],
+          tagsDetails: [
+            {
+              uid: "ced66db8-2724-4737-8a1c-fe7946f46dba",
+              name: null,
+              url: null,
+              status: null,
+            },
+          ],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2021/09/3460",
+          uid: "d8f861ea-0c83-48d6-b903-f6007fdb05f1",
+          name: "H15 PALACE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków (gmina miejska)",
+          city: "Kraków",
+          postalCode: "31-017",
+          street: "św. Jana 15",
+          bedsNumber: 142,
+          housingUnitsNumber: 71,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.06430225, 19.939716610377907],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0206041/2021/11/3476",
+          uid: "4114afff-df77-4862-a2c7-e9008f66c118",
+          name: "Platinum Mountain Hotel&SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Karkonoski",
+          community: "Szklarska Poręba (gmina miejska)",
+          city: "Szklarska Poręba",
+          postalCode: "58-580",
+          street: " 15B",
+          bedsNumber: 284,
+          housingUnitsNumber: 147,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.82178048414438, 15.52697002887726],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0206082/2021/12/3493",
+          uid: "757e490f-7601-43e9-a400-3e492e27282e",
+          name: "SEIDORF",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Karkonoski",
+          community: "Podgórzyn (gmina wiejska)",
+          city: "Sosnówka",
+          postalCode: "58-564",
+          street: "Liczyrzepy 80",
+          bedsNumber: 52,
+          housingUnitsNumber: 26,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.8053636, 15.704419101771968],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2403031/2022/02/3499",
+          uid: "9fe9519f-c7a3-48cd-ba38-06d6b5a6508e",
+          name: "CRYSTAL MOUNTAIN",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Śląskie",
+          district: "Cieszyński",
+          community: "Wisła (gmina miejska)",
+          city: "Wisła",
+          postalCode: "43-460",
+          street: "Bukowa 19A",
+          bedsNumber: 982,
+          housingUnitsNumber: 491,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.666153, 18.855766643318585],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0206041/2022/07/3560",
+          uid: "f55b833b-3b1c-4bce-ab2e-d122865afc16",
+          name: "BERGO RESORT &SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Karkonoski",
+          community: "Szklarska Poręba (gmina miejska)",
+          city: "Szklarska Poręba",
+          postalCode: "58-580",
+          street: "Stefana Okrzei 17-17A",
+          bedsNumber: 280,
+          housingUnitsNumber: 140,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.82167, 15.52497],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2022/07/3563",
+          uid: "b7147ee8-6d4c-43c2-b7f4-518c62b32a8a",
+          name: "SASKI KRAKÓW CURIO COLLECTION BY HILTON",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków (gmina miejska)",
+          city: "Kraków",
+          postalCode: "31-014",
+          street: "Sławkowska 3",
+          bedsNumber: 232,
+          housingUnitsNumber: 117,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.0633379, 19.9374505],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2022/08/3568",
+          uid: "29dadf3d-e4a0-4f6c-9bc0-8c7ac30dd3b1",
+          name: "FERREUS",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków (gmina miejska)",
+          city: "Kraków",
+          postalCode: "31-034",
+          street: "Mikołaja Kopernika 6",
+          bedsNumber: 127,
+          housingUnitsNumber: 71,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.06122426358719, 19.94526565074921],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2022/10/3590",
+          uid: "98096814-ba2b-4fe2-b685-67ccc96f6d36",
+          name: "ALTUS PALACE WROCŁAW",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław (gmina miejska)",
+          city: "Wrocław",
+          postalCode: "50-056",
+          street: "Wierzbowa 15",
+          bedsNumber: 148,
+          housingUnitsNumber: 81,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.104809, 17.036303],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0210021/2022/12/3603",
+          uid: "d42f3ceb-2710-41a4-9901-242250831e4a",
+          name: "ELEMENTS HOTEL&SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Lubański",
+          community: "Świeradów-Zdrój (gmina miejska)",
+          city: "Świeradów-Zdrój",
+          postalCode: "59-850",
+          street: "Zakopiańska 20A",
+          bedsNumber: 307,
+          housingUnitsNumber: 155,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.910016049999996, 15.324704898486548],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1210074/2023/04/3636",
+          uid: "3c1b2104-60c7-43a7-b2ba-4d00add6f511",
+          name: "BELMONTE HOTEL",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Nowosądecki",
+          community: "Krynica-Zdrój (miasto)",
+          city: "Krynica-Zdrój",
+          postalCode: "33-380",
+          street: "Piękna 23",
+          bedsNumber: 502,
+          housingUnitsNumber: 251,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.42213840302224, 20.953851342201236],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/0264011/2023/06/3654",
+          uid: "225b8368-7b72-4887-a7e3-d2e28013b556",
+          name: "AC BY MARRIOTT WROCŁAW",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Dolnośląskie",
+          district: "Wrocław",
+          community: "Wrocław (gmina miejska)",
+          city: "Wrocław",
+          postalCode: "50-071",
+          street: "Wolności 10",
+          bedsNumber: 212,
+          housingUnitsNumber: 91,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [51.0338012, 16.771303919568908],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1261011/2023/06/3658",
+          uid: "f1863e1d-5bb0-4d1e-b8b1-1d553a14b902",
+          name: "STRADOM HOUSE AUTOGRAPH COLLECTION BY MARRIOTT",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Małopolskie",
+          district: "Kraków",
+          community: "Kraków (gmina miejska)",
+          city: "Kraków",
+          postalCode: "31-058",
+          street: "Stradomska 12, 14",
+          bedsNumber: 249,
+          housingUnitsNumber: 125,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.05280176625414, 19.94075685904821],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2023/10/3682",
+          uid: "17c9a2c7-769b-4232-9524-e394d58cd0f3",
+          name: "Nobu Hotel Warsaw",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa",
+          community: "Warszawa (gmina miejska)",
+          city: "Warszawa",
+          postalCode: "00-670",
+          street: "Wilcza 73",
+          bedsNumber: 168,
+          housingUnitsNumber: 116,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.22303995, 21.007845351218222],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2473011/2023/11/3687",
+          uid: "efd12047-22d4-4430-b011-1fd9090f9cb9",
+          name: "BEL MON RESORT - HOTEL LILI",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Śląskie",
+          district: "Rybnik",
+          community: "Rybnik (gmina miejska)",
+          city: "Rybnik",
+          postalCode: "44-292",
+          street: "Stalowa 1",
+          bedsNumber: 23,
+          housingUnitsNumber: 12,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [50.1540223, 18.4796541],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2815011/2024/01/3701",
+          uid: "3422462a-cb12-423c-9a14-b83022a24833",
+          name: "Lake Hill Mazury, Resort & SPA",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Warmińsko-Mazurskie",
+          district: "Ostródzki",
+          community: "Ostróda (gmina miejska)",
+          city: "Ostróda",
+          postalCode: "14-100",
+          street: "Turystyczna 15",
+          bedsNumber: 476,
+          housingUnitsNumber: 238,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [53.7074363, 19.944200321113023],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/3205072/2024/03/3719",
+          uid: "8d8dd2a8-c837-47de-bc43-97a793b3c882",
+          name: "LINEA MARE",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Zachodniopomorskie",
+          district: "Gryficki",
+          community: "Rewal (gmina wiejska)",
+          city: "Pobierowo",
+          postalCode: "72-346",
+          street: "Karola Borka 6",
+          bedsNumber: 241,
+          housingUnitsNumber: 125,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [54.05514335, 14.918446056631575],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/1465011/2024/04/3725",
+          uid: "95f86018-157e-4a9b-b7bb-d4931d2b43e6",
+          name: "The Westin Warsaw",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Mazowieckie",
+          district: "Warszawa",
+          community: "Warszawa (gmina miejska)",
+          city: "Warszawa",
+          postalCode: "00-854",
+          street: "Aleja Jana Pawła II 21",
+          bedsNumber: 721,
+          housingUnitsNumber: 364,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [52.235276150000004, 20.99657290043914],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+        {
+          rid: "CWOH/2402011/2024/05/3736",
+          uid: "b56e08ef-4c74-40e0-b2cb-dd2bdc9726b9",
+          name: "ARIES HOTEL & SPA SZCZYRK",
+          kind: "RODZ_HOT",
+          category: "KAT_5ST_HOT",
+          voivodeship: "Śląskie",
+          district: "Bielski",
+          community: "Szczyrk (gmina miejska)",
+          city: "Szczyrk",
+          postalCode: "43-370",
+          street: "Górska 7",
+          bedsNumber: 248,
+          housingUnitsNumber: 124,
+          spatialLocation: {
+            type: "Point",
+            coordinates: [49.7161709, 19.0186313],
+          },
+          tags: [],
+          tagsDetails: [],
+          cityTeryt: null,
+          streetTeryt: null,
+        },
+      ];
+
+      const input = document.getElementById("search");
+
+      // Inicjalizacja Awesomplete
+      const awesomplete = new Awesomplete(input, {
+        autoFirst: false,
+        tabSelect: true,
+        minChars: 0,
+        maxItems: 99,
+        item: function (text, input) {
+          return Awesomplete.$.create("li", {
+            innerHTML: text,
+            "aria-selected": "false",
+          });
+        },
+      });
+
+      // Funkcja do przetwarzania danych
+      function updateSuggestions() {
+        const query = input.value.toLowerCase();
+        const suggestions = data
+          .filter((item) => item.name.toLowerCase().includes(query))
+          .map((item) => `${item.name} - ${item.city}, ${item.voivodeship} `);
+        awesomplete.list = suggestions;
+      }
+
+      // Nasłuchiwanie na zmiany w polu wyszukiwania
+      input.addEventListener("input", updateSuggestions);
+
+      // Nasłuchiwanie na kliknięcie podpowiedzi
+      input.addEventListener("awesomplete-selectcomplete", function (event) {
+        const selectedValue = event.text.value; // Wartość wybranej podpowiedzi
+        const selectedItem = data.find(
+          (item) => item.name === selectedValue.split(" - ")[0]
+        );
+        if (selectedItem) {
+          test(selectedItem.uid);
+        } else {
+          alert("Wybierz poprawny element z listy.");
+        }
+      });
+
+      // Przykładowa funkcja test
+      function test(uid) {
+        alert("Wywołano funkcję test z uid:" + uid);
+        // Tutaj możesz dodać dalszą logikę
+      }
     </script>
   </body>
 </html>
