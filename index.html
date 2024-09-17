@@ -417,6 +417,26 @@
           (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
         );
       };
+
+      function getParameterByName(name) {
+            const url = window.location.href;
+            name = name.replace(/[$$$$]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            const uid = getParameterByName('uid');
+            if (uid) {
+                test(uid);
+            }
+        };
+      function test(uid){
+        alert(uid)
+      }
     </script>
     <script src="src/js/jquery-3.5.1.slim.min.js"></script>
     <script src="src/js/popper.min.js"></script>
