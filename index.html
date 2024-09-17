@@ -428,12 +428,12 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        window.onload = function() {
+        
             const uid = getParameterByName('uid');
             if (uid) {
                 test(uid);
             }
-        };
+        
       function test(uid){
         alert(uid)
       }
