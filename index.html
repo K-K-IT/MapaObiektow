@@ -286,9 +286,8 @@
                   aria-describedby="readFile"
                   aria-label="Upload"
                 />
-               
               </div>
-             
+
               <div class="input-group-append">
                 <button
                   class="btn btn-outline-secondary"
@@ -299,11 +298,13 @@
                   Wczytaj
                 </button>
               </div>
-              
-            </div><br><br><br>
+            </div>
+            <br /><br /><br />
             <div class="container mt-5">
-              <button id="saveButton" class="btn btn-primary">Zapisz jako JSON</button>
-          </div>
+              <button id="saveButton" class="btn btn-primary">
+                Zapisz jako JSON
+              </button>
+            </div>
           </div>
           <div class="modal-footer">
             <button
@@ -416,27 +417,15 @@
         const tooltipList = [...tooltipTriggerList].map(
           (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
         );
+        uid = getParameterByName("uid");
+        if (uid && !(uid === "")) {
+          createPoint(uid);
+         
+
+        }
       };
 
-      function getParameterByName(name) {
-            const url = window.location.href;
-            name = name.replace(/[$$$$]/g, '\\$&');
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
 
-        
-            const uid = getParameterByName('uid');
-            if (uid) {
-                test(uid);
-            }
-        
-      function test(uid){
-        alert(uid)
-      }
     </script>
     <script src="src/js/jquery-3.5.1.slim.min.js"></script>
     <script src="src/js/popper.min.js"></script>

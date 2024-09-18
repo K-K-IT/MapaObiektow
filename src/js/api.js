@@ -119,3 +119,21 @@ async function getCategories() {
   }
 }
 
+async function createPoint(uid) {
+  await getJSON(
+    "https://api.turystyka.gov.pl/registers/open/cwoh/" + uid
+  ).then((a) =>
+    setPoint(
+      a.content.spatialLocation.coordinates,
+      uid,
+      "None",
+       js = a.content,
+      allMarkersOnTheMap.push(js)
+
+      
+    )
+  ).then((a) => {
+
+    map.setView(markers[uid]._latlng,18)
+  })
+}
